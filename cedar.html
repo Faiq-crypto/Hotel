@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Inn | Luxury Heritage Hotel in Rajbagh, Srinagar</title>
+    <meta name="description" content="Experience unparalleled hospitality at Cedar Inn, Rajbagh. Premium rooms, authentic Kashmiri cuisine, and breathtaking views near Modern Hospital.">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Elegant Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFCF9',
+                            100: '#F9F6EF',
+                            200: '#F5F0E5',
+                            300: '#EFE7D6',
+                            400: '#E5D8C0',
+                            500: '#D4C4A8',
+                        },
+                        cedar: {
+                            gold: '#B8956A',
+                            brown: '#5C4033',
+                            darkBrown: '#3E2723',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Light Mode (Default - Cream) */
+        body.light {
+            background: linear-gradient(135deg, #F9F6EF 0%, #F5F0E5 100%);
+            color: #3E2723;
+        }
+        
+        /* Dark Mode */
+        body.dark {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #F5F0E5;
+        }
+        
+        /* Smooth Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        body.light ::-webkit-scrollbar-thumb {
+            background: #B8956A;
+            border-radius: 5px;
+        }
+        
+        body.dark ::-webkit-scrollbar-thumb {
+            background: #D4C4A8;
+            border-radius: 5px;
+        }
+        
+        /* Hero Video/Slideshow */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: kenBurns 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        
+        /* Glass Morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #B8956A;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        
+        /* Navigation Active State */
+        .nav-link.active {
+            color: #B8956A !important;
+            font-weight: 600;
+        }
+        
+        /* Room Cards */
+        .room-card {
+            overflow: hidden;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .room-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .room-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        /* Gallery Masonry */
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        /* Contact Form */
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E5D8C0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        body.dark .form-input {
+            background: #2d2d2d;
+            border-color: #5C4033;
+            color: #F5F0E5;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #B8956A;
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+        
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F9F6EF;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .dark .loader {
+            background: #1a1a1a;
+        }
+        
+        /* Testimonial Slider */
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .testimonial-card {
+            background: #2d2d2d;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+                top: 80px;
+                right: 20px;
+            }
+            
+            .weather-widget {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+        }
+        
+        /* CSS Fade-in Animations */
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .fade-in-delay-1 {
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .fade-in-delay-2 {
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .fade-in-delay-3 {
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="light">
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-6xl font-bold" style="color: #B8956A;">Cedar Inn</h1>
+            <p class="font-sans text-sm tracking-widest mt-4 uppercase">Rajbagh, Srinagar</p>
+            <div class="mt-6">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#B8956A]"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <svg id="sunIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="moonIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+    </button>
+
+    <!-- Header with Time, Date & Weather -->
+    <header class="fixed top-0 w-full z-50 glass">
+        <div class="container mx-auto px-6 py-3">
+            <!-- Top Bar with Time & Weather -->
+            <div class="flex justify-between items-center pb-3 border-b border-gray-300 dark:border-gray-600">
+                <div class="weather-widget glass rounded-full">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span id="currentTime" class="font-medium">--:--:--</span>
+                    <span class="mx-2">|</span>
+                    <span id="currentDate">Loading...</span>
+                </div>
+                
+                <div class="weather-widget glass rounded-full">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                        <circle cx="12" cy="12" r="4"/>
+                    </svg>
+                    <span>Srinagar</span>
+                    <span class="mx-2">|</span>
+                    <span id="temperature">--°C</span>
+                </div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <div class="flex justify-between items-center pt-3">
+                <div>
+                    <h1 class="font-serif text-3xl md:text-4xl font-bold cursor-pointer" style="color: #B8956A;" onclick="showPage('home')">
+                        Cedar Inn
+                    </h1>
+                    <p class="text-xs font-sans tracking-wider mt-1">Rajbagh, Srinagar</p>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link active font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('home'); return false;">HOME</a>
+                    <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('rooms'); return false;">SUITES & ROOMS</a>
+                    <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('gallery'); return false;">GALLERY</a>
+                    <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('contact'); return false;">CONTACT US</a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-gray-300 dark:border-gray-600">
+            <nav class="container mx-auto px-6 py-4 flex flex-col space-y-3">
+                <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('home'); toggleMobileMenu(); return false;">HOME</a>
+                <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('rooms'); toggleMobileMenu(); return false;">SUITES & ROOMS</a>
+                <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('gallery'); toggleMobileMenu(); return false;">GALLERY</a>
+                <a href="#" class="nav-link font-sans text-sm font-medium hover:text-[#B8956A] transition" onclick="showPage('contact'); toggleMobileMenu(); return false;">CONTACT US</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32">
+        
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page active">
+            <!-- Hero Section with Slideshow -->
+            <section class="relative h-screen overflow-hidden">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                
+                <!-- Slideshow -->
+                <div class="relative h-full">
+                    <div class="hero-slide active">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070" alt="Cedar Inn Exterior">
+                    </div>
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070" alt="Luxury Room">
+                    </div>
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070" alt="Kashmir Valley">
+                    </div>
+                    <div class="hero-slide">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070" alt="Hotel Dining">
+                    </div>
+                </div>
+                
+                <!-- Hero Content -->
+                <div class="absolute inset-0 z-20 flex items-center justify-center text-center text-white">
+                    <div class="max-w-4xl px-6" class="fade-in" data-aos-duration="1200">
+                        <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6">
+                            Welcome to Cedar Inn
+                        </h1>
+                        <p class="font-sans text-xl md:text-2xl mb-8 tracking-wide">
+                            Experience Heritage Hospitality in the Heart of Rajbagh
+                        </p>
+                        <button onclick="showPage('rooms')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-10 py-4 rounded-full transition duration-300 text-lg">
+                            Explore Our Rooms
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide Indicators -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(0)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(1)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(2)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(3)"></button>
+                </div>
+            </section>
+            
+            <!-- About Section -->
+            <section class="py-20 px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="fade-in">
+                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080" alt="Cedar Inn Building" class="rounded-lg shadow-2xl">
+                        </div>
+                        <div class="fade-in">
+                            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6" style="color: #B8956A;">
+                                Your Home Away From Home
+                            </h2>
+                            <p class="font-sans text-lg leading-relaxed mb-6">
+                                Nestled in the serene locality of Rajbagh, near Modern Hospital, Cedar Inn offers an exceptional blend of traditional Kashmiri hospitality and contemporary comfort. Our prime location provides easy access to Srinagar's major attractions while maintaining a peaceful retreat atmosphere.
+                            </p>
+                            <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-8 py-3 rounded-lg transition duration-300">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Hotel Overview -->
+            <section class="py-20 px-6 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Hotel Overview
+                        </h2>
+                        <p class="font-sans text-lg">Everything you need for a perfect stay</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">45 Luxury Rooms</h3>
+                            <p class="font-sans">Premium suites and deluxe rooms with modern amenities</p>
+                        </div>
+                        
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">Multi-Cuisine Restaurant</h3>
+                            <p class="font-sans">Authentic Kashmiri and Continental delicacies</p>
+                        </div>
+                        
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">24/7 Service</h3>
+                            <p class="font-sans">Round-the-clock front desk and room service</p>
+                        </div>
+                        
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">Doctor on Call</h3>
+                            <p class="font-sans">Medical assistance available anytime</p>
+                        </div>
+                        
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="2" y1="12" x2="22" y2="12"/>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">Free WiFi</h3>
+                            <p class="font-sans">High-speed internet throughout the property</p>
+                        </div>
+                        
+                        <div class="text-center p-8 glass rounded-xl hover-lift" class="fade-in" >
+                            <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                    <line x1="6" y1="1" x2="6" y2="4"/>
+                                    <line x1="10" y1="1" x2="10" y2="4"/>
+                                    <line x1="14" y1="1" x2="14" y2="4"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-3">Hot & Cold Water</h3>
+                            <p class="font-sans">24-hour water supply in all rooms</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Location Highlights -->
+            <section class="py-20 px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Prime Location
+                        </h2>
+                        <p class="font-sans text-lg">Perfectly positioned for your Kashmir experience</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-6" class="fade-in">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-xl font-bold mb-2">Near Modern Hospital</h3>
+                                    <p class="font-sans">Located in the peaceful Rajbagh neighborhood with easy access to medical facilities</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-xl font-bold mb-2">Close to Dal Lake</h3>
+                                    <p class="font-sans">Just 2 km from the iconic Dal Lake and its famous Shikara rides</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                                        <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                                        <line x1="12" y1="20" x2="12.01" y2="20"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-xl font-bold mb-2">City Center Access</h3>
+                                    <p class="font-sans">3 km from Lal Chowk, Srinagar's vibrant commercial hub</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                        <polyline points="2 17 12 22 22 17"/>
+                                        <polyline points="2 12 12 17 22 12"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-xl font-bold mb-2">Airport Proximity</h3>
+                                    <p class="font-sans">13 km from Srinagar International Airport with easy transport options</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="fade-in">
+                            <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070" alt="Kashmir Valley" class="rounded-lg shadow-2xl h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Testimonials -->
+            <section class="py-20 px-6 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Guest Experiences
+                        </h2>
+                        <p class="font-sans text-lg">What our valued guests say about us</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="testimonial-card hover-lift" class="fade-in" >
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-[#B8956A]">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                            </div>
+                            <p class="font-sans text-lg mb-6 leading-relaxed">
+                                "Cedar Inn exceeded all our expectations! The rooms were immaculate, the staff was incredibly welcoming, and the location in Rajbagh made it easy to explore Srinagar. The authentic Kashmiri breakfast was a highlight. We felt truly at home."
+                            </p>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex items-center justify-center text-white font-bold">
+                                    RK
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-serif font-bold">Rajesh Kumar</h4>
+                                    <p class="font-sans text-sm opacity-75">Deluxe Double Room</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card hover-lift" class="fade-in" >
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-[#B8956A]">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                </div>
+                            </div>
+                            <p class="font-sans text-lg mb-6 leading-relaxed">
+                                "Outstanding hospitality! The team at Cedar Inn went above and beyond to make our family vacation memorable. The rooms were spacious and comfortable, perfect for our children. The proximity to Modern Hospital gave us peace of mind. Highly recommended!"
+                            </p>
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-[#B8956A] rounded-full flex items-center justify-center text-white font-bold">
+                                    PS
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-serif font-bold">Priya Sharma</h4>
+                                    <p class="font-sans text-sm opacity-75">Family Suite</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Newsletter -->
+            <section class="py-16 px-6">
+                <div class="container mx-auto max-w-4xl text-center" class="fade-in">
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4" style="color: #B8956A;">
+                        Stay Updated
+                    </h2>
+                    <p class="font-sans text-lg mb-8">Subscribe to receive exclusive offers and Kashmir travel tips</p>
+                    <div class="flex flex-col md:flex-row gap-4 max-w-xl mx-auto">
+                        <input type="email" placeholder="Enter your email" class="form-input flex-1">
+                        <button class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-8 py-3 rounded-lg transition duration-300">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- SUITES & ROOMS PAGE -->
+        <div id="roomsPage" class="page">
+            <section class="py-20 px-6">
+                <div class="container mx-auto max-w-7xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h1 class="font-serif text-5xl md:text-6xl font-bold mb-6" style="color: #B8956A;">
+                            Suites & Rooms
+                        </h1>
+                        <p class="font-sans text-xl max-w-3xl mx-auto">
+                            Experience comfort and luxury in our thoughtfully designed accommodations, each offering stunning views and premium amenities
+                        </p>
+                    </div>
+                    
+                    <!-- Room Cards -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Deluxe Room -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070" alt="Deluxe Room" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Deluxe Room</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Perfect for couples and solo travelers</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        King-size bed
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        250 sq.ft room
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Valley view
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Free WiFi & breakfast
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹4,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Premium Double Room -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2070" alt="Premium Double Room" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Premium Double Room</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Spacious accommodation for small families</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Twin beds or King
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        320 sq.ft room
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Garden view balcony
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Mini-bar & coffee maker
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹6,200</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Heritage Family Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070" alt="Heritage Family Suite" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Heritage Family Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Ideal for families seeking extra space</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Separate living area
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        450 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        2 bathrooms
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Kids welcome amenities
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹9,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Executive Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2070" alt="Executive Suite" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Executive Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Premium comfort for discerning guests</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Premium king bed
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        380 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Work desk & lounge
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Complimentary upgrade
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹7,800</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Royal Jhelum Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070" alt="Royal Jhelum Suite" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Royal Jhelum Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Our signature luxury experience</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Master bedroom + lounge
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        600 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Jacuzzi & premium bath
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Butler service
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹14,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presidential Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift" class="fade-in" >
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070" alt="Presidential Suite" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-serif text-2xl font-bold mb-2">Presidential Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Ultimate luxury and exclusivity</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        2 bedrooms + dining
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        850 sq.ft penthouse
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Private terrace
+                                    </li>
+                                    <li class="flex items-center">
+                                        <svg width="16" height="16" class="mr-2" fill="#B8956A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        24/7 concierge
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-3xl font-bold" style="color: #B8956A;">₹22,000</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-6 py-2 rounded-lg transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Room Features -->
+                    <div class="mt-20 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900 rounded-xl p-12" class="fade-in">
+                        <h2 class="font-serif text-3xl font-bold mb-8 text-center" style="color: #B8956A;">All Rooms Include</h2>
+                        <div class="grid md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="2" y1="12" x2="22" y2="12"/>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">High-Speed WiFi</h3>
+                                <p class="font-sans text-sm">Complimentary throughout stay</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                                        <polyline points="17 2 12 7 7 2"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Smart TV</h3>
+                                <p class="font-sans text-sm">Cable & streaming services</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                        <line x1="6" y1="1" x2="6" y2="4"/>
+                                        <line x1="10" y1="1" x2="10" y2="4"/>
+                                        <line x1="14" y1="1" x2="14" y2="4"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Hot Water</h3>
+                                <p class="font-sans text-sm">24/7 availability</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Breakfast</h3>
+                                <p class="font-sans text-sm">Complimentary Kashmiri cuisine</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- GALLERY PAGE -->
+        <div id="galleryPage" class="page">
+            <section class="py-20 px-6">
+                <div class="container mx-auto max-w-7xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h1 class="font-serif text-5xl md:text-6xl font-bold mb-6" style="color: #B8956A;">
+                            Gallery
+                        </h1>
+                        <p class="font-sans text-xl max-w-3xl mx-auto">
+                            A visual journey through Cedar Inn's elegant spaces and the breathtaking beauty of Kashmir
+                        </p>
+                    </div>
+                    
+                    <!-- Gallery Grid -->
+                    <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                        <!-- Hotel Exterior -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070" alt="Cedar Inn Exterior" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Cedar Inn Exterior View</p>
+                        </div>
+                        
+                        <!-- Rooms -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070" alt="Deluxe Room" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Deluxe Room Interior</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2070" alt="Suite Bathroom" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Luxury Suite Bathroom</p>
+                        </div>
+                        
+                        <!-- Kashmir Scenery -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070" alt="Dal Lake" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Dal Lake Shikara Ride</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070" alt="Kashmir Mountains" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Himalayan Mountain Views</p>
+                        </div>
+                        
+                        <!-- Dining -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070" alt="Restaurant" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Multi-Cuisine Restaurant</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2074" alt="Kashmiri Cuisine" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Authentic Kashmiri Wazwan</p>
+                        </div>
+                        
+                        <!-- More Rooms -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070" alt="Presidential Suite" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Presidential Suite Living Area</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070" alt="Room Balcony" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Room with Valley View Balcony</p>
+                        </div>
+                        
+                        <!-- Kashmir Tourism -->
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=2070" alt="Gulmarg" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Gulmarg Ski Resort</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2064" alt="Srinagar Gardens" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Mughal Gardens</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid" class="fade-in" >
+                            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080" alt="Hotel Lobby" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Elegant Hotel Lobby</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- CONTACT US PAGE -->
+        <div id="contactPage" class="page">
+            <section class="py-20 px-6">
+                <div class="container mx-auto max-w-7xl">
+                    <div class="text-center mb-16" class="fade-in">
+                        <h1 class="font-serif text-5xl md:text-6xl font-bold mb-6" style="color: #B8956A;">
+                            Contact Us
+                        </h1>
+                        <p class="font-sans text-xl max-w-3xl mx-auto">
+                            We're here to make your Kashmir experience unforgettable. Get in touch with us today
+                        </p>
+                    </div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <!-- Contact Form -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8" class="fade-in">
+                            <h2 class="font-serif text-3xl font-bold mb-6" style="color: #B8956A;">Send us a Message</h2>
+                            <form class="space-y-6">
+                                <div>
+                                    <label class="font-sans font-medium mb-2 block">Name *</label>
+                                    <input type="text" class="form-input" placeholder="Your full name" required>
+                                </div>
+                                <div>
+                                    <label class="font-sans font-medium mb-2 block">Email *</label>
+                                    <input type="email" class="form-input" placeholder="your.email@example.com" required>
+                                </div>
+                                <div>
+                                    <label class="font-sans font-medium mb-2 block">Mobile *</label>
+                                    <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                                </div>
+                                <div>
+                                    <label class="font-sans font-medium mb-2 block">Message *</label>
+                                    <textarea class="form-input" rows="5" placeholder="Tell us about your travel plans..." required></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-8 py-4 rounded-lg transition duration-300">
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="fade-in">
+                            <!-- Map -->
+                            <div class="map-container mb-8 shadow-xl">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.234567890123!2d74.8012345!3d34.0836789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA1JzAxLjIiTiA3NMKwNDgnMDQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123"
+                                    width="100%" 
+                                    height="100%" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            
+                            <!-- Contact Details -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 space-y-6">
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold mb-4" style="color: #B8956A;">Contact Details</h3>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-serif font-bold mb-1">Address</h4>
+                                        <p class="font-sans">Rajbagh, Near Modern Hospital<br>Srinagar, Jammu & Kashmir<br>India, 190008</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-serif font-bold mb-1">Phone</h4>
+                                        <p class="font-sans">+91 194 2480100<br>+91 194 2480101<br>Mobile: +91 9906000000</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                            <polyline points="22,6 12,13 2,6"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-serif font-bold mb-1">Email</h4>
+                                        <p class="font-sans">reservation@cedarinn.com<br>info@cedarinn.in<br>gm@cedarinn.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Directions -->
+                            <div class="bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900 rounded-xl p-8 mt-8">
+                                <h3 class="font-serif text-2xl font-bold mb-4" style="color: #B8956A;">How to Reach Us</h3>
+                                <div class="space-y-4 font-sans">
+                                    <div>
+                                        <h4 class="font-bold mb-2">From Airport:</h4>
+                                        <p class="text-sm leading-relaxed">Cedar Inn is located 13 km from Srinagar International Airport. You can book a prepaid taxi or request our airport pickup service for a comfortable journey to the hotel.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-2">By Car/Taxi:</h4>
+                                        <p class="text-sm leading-relaxed">Located in Rajbagh, near Modern Hospital. From city center (Lal Chowk), head towards Rajbagh. The hotel is easily accessible and well-signposted in the neighborhood.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-2">Local Transport:</h4>
+                                        <p class="text-sm leading-relaxed">Auto-rickshaws and local taxis are readily available. The hotel is approximately 3 km from the Tourist Reception Center and 2 km from Dal Lake.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Reservation Form -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mt-8">
+                                <h3 class="font-serif text-2xl font-bold mb-6" style="color: #B8956A;">Quick Reservation</h3>
+                                <form class="space-y-4">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="font-sans text-sm font-medium mb-2 block">Check-In</label>
+                                            <input type="date" class="form-input" required>
+                                        </div>
+                                        <div>
+                                            <label class="font-sans text-sm font-medium mb-2 block">Check-Out</label>
+                                            <input type="date" class="form-input" required>
+                                        </div>
+                                    </div>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="font-sans text-sm font-medium mb-2 block">Adults</label>
+                                            <select class="form-input" required>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="font-sans text-sm font-medium mb-2 block">Children</label>
+                                            <select class="form-input">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="w-full bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-8 py-3 rounded-lg transition duration-300">
+                                        Check Availability
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#3E2723] text-white py-12 px-6">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold mb-4" style="color: #B8956A;">Cedar Inn</h3>
+                    <p class="font-sans text-sm leading-relaxed opacity-80">
+                        Experience authentic Kashmiri hospitality in the heart of Rajbagh, Srinagar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="font-sans text-sm space-y-2">
+                        <li><a href="#" onclick="showPage('home'); return false;" class="hover:text-[#B8956A] transition">Home</a></li>
+                        <li><a href="#" onclick="showPage('rooms'); return false;" class="hover:text-[#B8956A] transition">Rooms</a></li>
+                        <li><a href="#" onclick="showPage('gallery'); return false;" class="hover:text-[#B8956A] transition">Gallery</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;" class="hover:text-[#B8956A] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Contact Info</h4>
+                    <ul class="font-sans text-sm space-y-2 opacity-80">
+                        <li>Rajbagh, Srinagar</li>
+                        <li>+91 9906000000</li>
+                        <li>info@cedarinn.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/20 pt-8 text-center font-sans text-sm opacity-75">
+                <p>&copy; 2026 Cedar Inn Hospitality. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919906000000" target="_blank" class="fixed bottom-8 right-8 w-16 h-16 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition duration-300 z-50">
+        <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const pageMap = {
+                'home': 'homePage',
+                'rooms': 'roomsPage',
+                'gallery': 'galleryPage',
+                'contact': 'contactPage'
+            };
+            
+            document.getElementById(pageMap[pageName]).classList.add('active');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            
+            if (savedTheme === 'dark') {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Time and Date Update
+        function updateTimeAndDate() {
+            const now = new Date();
+            
+            // Time
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Date
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update Temperature (Simulated)
+        function updateTemperature() {
+            // In a real application, you would fetch this from a weather API
+            const temps = ['12°C', '14°C', '10°C', '15°C', '13°C'];
+            const randomTemp = temps[Math.floor(Math.random() * temps.length)];
+            document.getElementById('temperature').textContent = randomTemp;
+        }
+
+        // Hero Slideshow
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.slide-indicator');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('opacity-100'));
+            indicators.forEach(indicator => indicator.classList.add('opacity-50'));
+            
+            slides[index].classList.add('active');
+            indicators[index].classList.remove('opacity-50');
+            indicators[index].classList.add('opacity-100');
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            showSlide(currentSlideIndex);
+        }
+
+        // Auto-advance slides
+        setInterval(nextSlide, 5000);
+
+        // Hide Loader on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 800);
+        });
+
+        // Also hide loader after DOMContentLoaded as backup
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 1200);
+        });
+
+        // Initialize time and temperature
+        setInterval(updateTimeAndDate, 1000);
+        updateTimeAndDate();
+        updateTemperature();
+        setInterval(updateTemperature, 300000); // Update every 5 minutes
+    </script>
+</body>
+</html>
