@@ -511,6 +511,9 @@
                     <button class="nav-btn" onclick="showPage('contact')" data-page="contact">
                         <i class="fas fa-envelope mr-2"></i>Contact Us
                     </button>
+                    <button class="nav-btn" onclick="showPage('privacy')" data-page="privacy">
+                        <i class="fas fa-shield-alt mr-2"></i>Privacy & Policy
+                    </button>
                 </nav>
                 
                 <!-- Mobile Menu Button - shows navigation labels -->
@@ -541,6 +544,9 @@
                 </button>
                 <button class="nav-btn text-left" onclick="showPage('contact'); toggleMobileMenu();" data-page="contact">
                     <i class="fas fa-envelope mr-2"></i>Contact Us
+                </button>
+                <button class="nav-btn text-left" onclick="showPage('privacy'); toggleMobileMenu();" data-page="privacy">
+                    <i class="fas fa-shield-alt mr-2"></i>Privacy & Policy
                 </button>
             </nav>
         </div>
@@ -1263,154 +1269,243 @@
         
         <!-- CONTACT US PAGE -->
         <div id="contactPage" class="page">
-            <section class="py-16 md:py-20 px-4 md:px-6">
-                <div class="container mx-auto max-w-7xl">
-                    <div class="text-center mb-12 md:mb-16 fade-in">
-                        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: #B8956A;">
-                            Contact Us
-                        </h1>
-                        <p class="font-sans text-lg md:text-xl max-w-3xl mx-auto">
-                            We're here to make your Kashmir experience unforgettable. Get in touch with us today
-                        </p>
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 fade-in">
+                        <h1 class="font-serif text-3xl md:text-5xl font-bold mb-3" style="color: #B8956A;">Contact Us</h1>
+                        <p class="font-sans text-base md:text-lg max-w-3xl mx-auto opacity-80">We're here to make your Kashmir experience unforgettable. Get in touch with us today.</p>
                     </div>
                     
-                    <div class="grid lg:grid-cols-2 gap-8 md:gap-12">
-                        <!-- Contact Form -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 md:p-8 fade-in">
-                            <h2 class="font-serif text-2xl md:text-3xl font-bold mb-6" style="color: #B8956A;">Send us a Message</h2>
-                            <form class="space-y-6">
-                                <div>
-                                    <label class="font-sans font-medium mb-2 block">Name *</label>
-                                    <input type="text" class="form-input" placeholder="Your full name" required>
+                    <div class="grid lg:grid-cols-2 gap-6 md:gap-10">
+                        <!-- Booking Form -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-5 md:p-7 fade-in">
+                            <h2 class="font-serif text-2xl md:text-3xl font-bold mb-5" style="color: #B8956A;">
+                                <i class="fas fa-calendar-check mr-2"></i>Book Hotel Online
+                            </h2>
+
+                            <!-- Success Message -->
+                            <div id="bookingSuccess" class="hidden mb-5 p-5 rounded-xl text-center" style="background: linear-gradient(135deg, rgba(184,149,106,0.12), rgba(92,64,51,0.08)); border: 1.5px solid rgba(184,149,106,0.5);">
+                                <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif text-xl font-bold mb-2" style="color: #B8956A;">Booking Request Received!</h3>
+                                <p class="font-sans text-sm leading-relaxed">We have received your response.<br><strong>We will contact you as soon as possible</strong> to confirm your reservation.</p>
+                                <p class="font-sans text-xs mt-3 opacity-60">For urgent queries, call us at <strong>+91 9906000000</strong></p>
+                            </div>
+
+                            <form id="bookingForm" class="space-y-4" onsubmit="submitBooking(event)">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Full Name *</label>
+                                        <input type="text" class="form-input" placeholder="Your full name" required>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Mobile *</label>
+                                        <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                                    </div>
                                 </div>
                                 <div>
-                                    <label class="font-sans font-medium mb-2 block">Email *</label>
+                                    <label class="font-sans text-sm font-medium mb-1.5 block">Email *</label>
                                     <input type="email" class="form-input" placeholder="your.email@example.com" required>
                                 </div>
-                                <div>
-                                    <label class="font-sans font-medium mb-2 block">Mobile *</label>
-                                    <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Check-In Date *</label>
+                                        <input type="date" class="form-input" required>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Check-Out Date *</label>
+                                        <input type="date" class="form-input" required>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Room Type</label>
+                                        <select class="form-input text-sm">
+                                            <option value="">Any Room</option>
+                                            <option>Deluxe Room</option>
+                                            <option>Premium Double</option>
+                                            <option>Heritage Family Suite</option>
+                                            <option>Executive Suite</option>
+                                            <option>Royal Jhelum Suite</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Adults</label>
+                                        <select class="form-input text-sm">
+                                            <option>1</option><option selected>2</option><option>3</option><option>4</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Children</label>
+                                        <select class="form-input text-sm">
+                                            <option selected>0</option><option>1</option><option>2</option><option>3</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div>
-                                    <label class="font-sans font-medium mb-2 block">Message *</label>
-                                    <textarea class="form-input" rows="5" placeholder="Tell us about your travel plans..." required></textarea>
+                                    <label class="font-sans text-sm font-medium mb-1.5 block">Special Requests</label>
+                                    <textarea class="form-input" rows="3" placeholder="Any special requirements or travel plans..."></textarea>
                                 </div>
                                 <button type="submit" class="btn-primary w-full">
-                                    <i class="fas fa-paper-plane mr-2"></i>Send Message
+                                    <i class="fas fa-paper-plane mr-2"></i>Submit Booking Request
                                 </button>
+                                <p class="font-sans text-xs text-center opacity-60">By submitting, you agree to our <a href="#" onclick="showPage('privacy'); return false;" style="color:#B8956A;" class="hover:underline">Privacy Policy & Terms</a></p>
                             </form>
                         </div>
                         
-                        <!-- Contact Information -->
-                        <div class="fade-in">
-                            <!-- Map -->
-                            <div class="map-container mb-8 shadow-xl">
-                                <iframe 
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.234567890123!2d74.8012345!3d34.0836789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA1JzAxLjIiTiA3NMKwNDgnMDQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123"
-                                    width="100%" 
-                                    height="100%" 
-                                    style="border:0;" 
-                                    allowfullscreen="" 
-                                    loading="lazy">
-                                </iframe>
+                        <!-- Contact Info -->
+                        <div class="fade-in space-y-5">
+                            <div class="rounded-xl overflow-hidden shadow-xl" style="height:230px;">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.234567890123!2d74.8012345!3d34.0836789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA1JzAxLjIiTiA3NMKwNDgnMDQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
-                            
-                            <!-- Contact Details -->
-                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 md:p-8 space-y-6 mb-8">
-                                <div>
-                                    <h3 class="font-serif text-xl md:text-2xl font-bold mb-4" style="color: #B8956A;">Contact Details</h3>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-5 space-y-4">
+                                <h3 class="font-serif text-lg font-bold" style="color: #B8956A;">Contact Details</h3>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-map-marker-alt text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Address</h4><p class="font-sans text-sm opacity-75">Rajbagh, Near Modern Hospital, Srinagar, J&K — 190008</p></div>
                                 </div>
-                                
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
-                                        <i class="fas fa-map-marker-alt text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-serif font-bold mb-1">Address</h4>
-                                        <p class="font-sans text-sm md:text-base">Rajbagh, Near Modern Hospital<br>Srinagar, Jammu & Kashmir<br>India, 190008</p>
-                                    </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-phone text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Phone</h4><p class="font-sans text-sm opacity-75">+91 194 2480100 · +91 194 2480101<br>Mobile: +91 9906000000</p></div>
                                 </div>
-                                
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
-                                        <i class="fas fa-phone text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-serif font-bold mb-1">Phone</h4>
-                                        <p class="font-sans text-sm md:text-base">+91 194 2480100<br>+91 194 2480101<br>Mobile: +91 9906000000</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
-                                        <i class="fas fa-envelope text-white"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-serif font-bold mb-1">Email</h4>
-                                        <p class="font-sans text-sm md:text-base"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5c2e392f392e2a3d283533321c3f39383d2e353232723f3331">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="422b2c242d0221272623302b2c2c6c2b2c">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="12757f5271777673607b7c7c3c717d7f">[email&#160;protected]</a></p>
-                                    </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-envelope text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Email</h4><p class="font-sans text-sm opacity-75">info@cedarinn.in · reservations@cedarinn.in</p></div>
                                 </div>
                             </div>
-                            
-                            <!-- Directions -->
-                            <div class="bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 md:p-8">
-                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-4" style="color: #B8956A;">How to Reach Us</h3>
-                                <div class="space-y-4 font-sans text-sm md:text-base">
-                                    <div>
-                                        <h4 class="font-bold mb-2"><i class="fas fa-plane mr-2"></i>From Airport:</h4>
-                                        <p class="leading-relaxed">Cedar Inn is located 13 km from Srinagar International Airport. You can book a prepaid taxi or request our airport pickup service for a comfortable journey to the hotel.</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold mb-2"><i class="fas fa-car mr-2"></i>By Car/Taxi:</h4>
-                                        <p class="leading-relaxed">Located in Rajbagh, near Modern Hospital. From city center (Lal Chowk), head towards Rajbagh. The hotel is easily accessible and well-signposted in the neighborhood.</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold mb-2"><i class="fas fa-bus mr-2"></i>Local Transport:</h4>
-                                        <p class="leading-relaxed">Auto-rickshaws and local taxis are readily available. The hotel is approximately 3 km from the Tourist Reception Center and 2 km from Dal Lake.</p>
-                                    </div>
+                            <div class="rounded-xl p-5 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                                <h3 class="font-serif text-lg font-bold mb-3" style="color: #B8956A;">How to Reach Us</h3>
+                                <div class="space-y-3 font-sans text-sm">
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-plane mr-2" style="color:#B8956A;"></i>From Airport</p><p class="opacity-75 leading-relaxed">13 km from Srinagar International Airport. Prepaid taxi or our airport pickup available.</p></div>
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-car mr-2" style="color:#B8956A;"></i>By Car / Taxi</p><p class="opacity-75 leading-relaxed">From Lal Chowk, head towards Rajbagh. Hotel is near Modern Hospital, well-signposted.</p></div>
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-bus mr-2" style="color:#B8956A;"></i>Local Transport</p><p class="opacity-75 leading-relaxed">2 km from Dal Lake, 3 km from Tourist Reception Center. Auto-rickshaws readily available.</p></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Reservation Form -->
-                    <div class="mt-12 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 md:p-8 max-w-3xl mx-auto fade-in">
-                        <h3 class="font-serif text-2xl md:text-3xl font-bold mb-6 text-center" style="color: #B8956A;">Quick Reservation</h3>
-                        <form class="space-y-4">
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="font-sans text-sm font-medium mb-2 block">Check-In</label>
-                                    <input type="date" class="form-input" required>
-                                </div>
-                                <div>
-                                    <label class="font-sans text-sm font-medium mb-2 block">Check-Out</label>
-                                    <input type="date" class="form-input" required>
-                                </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PRIVACY & POLICY PAGE -->
+        <div id="privacyPage" class="page">
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-4xl">
+                    <div class="text-center mb-8 fade-in">
+                        <h1 class="font-serif text-3xl md:text-5xl font-bold mb-3" style="color: #B8956A;"><i class="fas fa-shield-alt mr-3"></i>Privacy &amp; Policy</h1>
+                        <p class="font-sans text-sm opacity-60">Cedar Inn, Rajbagh, Srinagar &nbsp;·&nbsp; Last updated: 2026</p>
+                    </div>
+
+                    <div class="space-y-6 fade-in">
+
+                        <!-- Reservation Policy -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-calendar-alt text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Reservation Policy</h2>
                             </div>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="font-sans text-sm font-medium mb-2 block">Adults</label>
-                                    <select class="form-input" required>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="font-sans text-sm font-medium mb-2 block">Children</label>
-                                    <select class="form-input">
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-                                </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Please make advance reservations via telephone or book online to assure room availability.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>A deposit is required to obtain a confirmed reservation. Please note the cancellation policy before committing to a reservation.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Rates may change without notice and may vary for special events except for confirmed reservations (deposit taken).</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">4</span><p>All rates are inclusive of tax on room tariff.</p></div>
                             </div>
-                            <button type="submit" class="btn-primary w-full">
-                                <i class="fas fa-calendar-check mr-2"></i>Check Availability
-                            </button>
-                        </form>
+                        </div>
+
+                        <!-- Deposit Policy -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-credit-card text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Deposit Policy</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>To confirm your reservation, a deposit equal to a minimum of one night's room rate, or 50% of the entire stay's cost — whichever is more — is required. We accept Maestro, Visa and MasterCard. For alternate arrangements, please contact the Hotel.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>For Corporate reservations secured by a company credit card, the deposit requirement may be waived at the discretion of the Hotel. Please inquire before making a reservation.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Group bookings of four or more rooms require a 30-day cancellation notice for return of the deposit.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Check-In / Check-Out -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-clock text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Check-In / Check-Out</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Normal check-in time is <strong>2:00 PM onwards</strong>. For late arrivals, please call for instructions on the procedure for arrival after 9 PM.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>Check-out is at <strong>12:00 Noon</strong>.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Early check-in and late check-out are possible on availability only, by prior arrangement. Each is subject to an additional charge of <strong>₹750</strong>.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Children & Infants -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-child text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Children &amp; Infants</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Children up to 5 years can stay free of charge with parents using existing beds. No free extra bed and no meal is provided in normal cases. Breakfast till age 5 is complimentary; above that, normal menu charges apply.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>If an extra bed is required for a child aged 2–5 years, the third person's rate applies. Please select "3 adults" in the reservation form — you will receive 3 breakfasts unless stated otherwise.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Cots for infants can be requested, subject to availability.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Modification -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-edit text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Modification Policy</h2>
+                            </div>
+                            <div class="p-6 font-sans text-sm leading-relaxed">
+                                <p>We require a few days before the original arrival date for any amendment request. All modifications are subject to availability at the time of the request. Modifications made less than <strong>7 days</strong> before the original arrival date may incur a late modification fee of <strong>₹500</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- No Show -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-user-slash text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Non-Arrival (No Show)</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <p>If you fail to arrive at the hotel on the arrival date, the entire reservation will be cancelled automatically and you will be charged the cost of the whole reservation.</p>
+                                <p>If you fail to check in on the first date but still intend to continue your stay, please <strong>urgently contact us</strong> so we can hold the room for the remaining nights. Otherwise, the entire reservation will be auto-cancelled and no refund will be issued.</p>
+                            </div>
+                        </div>
+
+                        <!-- Early Check-Out -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-door-open text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Shorten Stay (Early Check-Out)</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <p>A shortened stay is subject to the charge for the whole reserved period, whether or not you stay for the entire duration.</p>
+                                <p>If you know your plans are changing, please contact us as early as possible to minimise any charges.</p>
+                            </div>
+                        </div>
+
+                        <!-- Photo & Media Rights -->
+                        <div class="rounded-xl shadow-lg overflow-hidden" style="border: 2px solid #B8956A;">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#3E2723,#5C4033);">
+                                <i class="fas fa-camera text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Photo, Video &amp; Media Rights</h2>
+                            </div>
+                            <div class="p-6 font-sans text-sm leading-relaxed" style="background: rgba(184,149,106,0.05);">
+                                <p class="mb-3">All photographs, videos, and multimedia content displayed on the Cedar Inn website and any associated platforms are the <strong>exclusive property of Cedar Inn</strong> and are protected under applicable copyright laws.</p>
+                                <p class="mb-3"><strong>No person, organisation, or entity is permitted to copy, reproduce, redistribute, publish, or use any photo or video content</strong> from Cedar Inn in any form — digital or print — without prior written permission from the Administration.</p>
+                                <p>To request permission for use of any media content, please contact us at <strong>info@cedarinn.in</strong> or reach out to the hotel administration directly.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-8 text-center fade-in">
+                        <button onclick="showPage('contact')" class="btn-primary">
+                            <i class="fas fa-calendar-check mr-2"></i>Book Your Stay
+                        </button>
                     </div>
                 </div>
             </section>
@@ -1435,6 +1530,7 @@
                         <li><a href="#" onclick="showPage('rooms'); return false;" class="hover:text-[#B8956A] transition">Rooms</a></li>
                         <li><a href="#" onclick="showPage('gallery'); return false;" class="hover:text-[#B8956A] transition">Gallery</a></li>
                         <li><a href="#" onclick="showPage('contact'); return false;" class="hover:text-[#B8956A] transition">Contact</a></li>
+                        <li><a href="#" onclick="showPage('privacy'); return false;" class="hover:text-[#B8956A] transition">Privacy &amp; Policy</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1485,7 +1581,8 @@
                 'home': 'homePage',
                 'rooms': 'roomsPage',
                 'gallery': 'galleryPage',
-                'contact': 'contactPage'
+                'contact': 'contactPage',
+                'privacy': 'privacyPage'
             };
             
             document.getElementById(pageMap[pageName]).classList.add('active');
@@ -1645,6 +1742,22 @@
             el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
             observer.observe(el);
         });
+
+        // Booking Form Submit Handler
+        function submitBooking(e) {
+            e.preventDefault();
+            const form = document.getElementById('bookingForm');
+            const success = document.getElementById('bookingSuccess');
+            form.style.transition = 'opacity 0.3s ease';
+            form.style.opacity = '0';
+            setTimeout(() => {
+                form.style.display = 'none';
+                success.classList.remove('hidden');
+                success.style.opacity = '0';
+                success.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => { success.style.opacity = '1'; }, 50);
+            }, 300);
+        }
 
         // HIDE LOADER — must happen reliably, never block on images or network
         function hideLoader() {
