@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Inn | Luxury Heritage Hotel in Rajbagh, Srinagar</title>
+    <meta name="description" content="Experience unparalleled hospitality at Cedar Inn, Rajbagh. Premium rooms, authentic Kashmiri cuisine, and breathtaking views near Modern Hospital.">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Elegant Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFCF9',
+                            100: '#F9F6EF',
+                            200: '#F5F0E5',
+                            300: '#EFE7D6',
+                            400: '#E5D8C0',
+                            500: '#D4C4A8',
+                        },
+                        cedar: {
+                            gold: '#B8956A',
+                            brown: '#5C4033',
+                            darkBrown: '#3E2723',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Light Mode (Default - Cream) */
+        body.light {
+            background: linear-gradient(135deg, #F9F6EF 0%, #F5F0E5 100%);
+            color: #3E2723;
+        }
+        
+        /* Dark Mode */
+        body.dark {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #F5F0E5;
+        }
+        
+        /* Smooth Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        body.light ::-webkit-scrollbar-thumb {
+            background: #B8956A;
+            border-radius: 5px;
+        }
+        
+        body.dark ::-webkit-scrollbar-thumb {
+            background: #D4C4A8;
+            border-radius: 5px;
+        }
+        
+        /* Hero Video/Slideshow */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: kenBurns 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes kenBurns {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        
+        /* Glass Morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(184, 149, 106, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(184, 149, 106, 0.3);
+        }
+        
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Navigation Buttons - Enhanced */
+        .nav-btn {
+            position: relative;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(184, 149, 106, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, #B8956A 0%, #5C4033 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.4);
+        }
+        
+        .nav-btn:hover {
+            background: rgba(184, 149, 106, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .dark .nav-btn:hover {
+            background: rgba(184, 149, 106, 0.2);
+        }
+        
+        /* Navigation Active State */
+        .nav-link.active {
+            color: #B8956A !important;
+            font-weight: 700;
+        }
+        
+        /* Compact Header */
+        .compact-header {
+            padding: 0.75rem 0;
+        }
+        
+        /* Room Cards */
+        .room-card {
+            overflow: hidden;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .room-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .room-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        /* Gallery Masonry */
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        /* Contact Form */
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E5D8C0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        body.dark .form-input {
+            background: #2d2d2d;
+            border-color: #5C4033;
+            color: #F5F0E5;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #B8956A;
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(184, 149, 106, 0.1);
+            font-size: 0.875rem;
+        }
+        
+        .dark .weather-widget {
+            background: rgba(184, 149, 106, 0.15);
+        }
+        
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #F9F6EF;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .dark .loader {
+            background: #1a1a1a;
+        }
+        
+        /* Testimonial Card */
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .testimonial-card {
+            background: #2d2d2d;
+        }
+        
+        /* Twitter Feed Styling */
+        .tweet-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .tweet-card {
+            background: #2d2d2d;
+        }
+        
+        .tweet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Enhanced Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #B8956A 0%, #5C4033 100%);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(184, 149, 106, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(184, 149, 106, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #B8956A;
+            border: 2px solid #B8956A;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #B8956A;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* CSS Fade-in Animations */
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .weather-widget {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+                gap: 5px;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+            
+            .map-container {
+                height: 260px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.75rem;
+            }
+
+            /* Hero height on mobile */
+            .hero-section-mobile {
+                height: 85vh !important;
+                min-height: 480px;
+            }
+
+            /* Reduce card padding on mobile */
+            .testimonial-card {
+                padding: 18px;
+            }
+
+            .tweet-card {
+                padding: 14px;
+            }
+
+            /* Gallery columns on mobile */
+            .gallery-cols-mobile {
+                columns: 1 !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .weather-widget {
+                font-size: 0.65rem;
+                padding: 3px 7px;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body class="light">
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-6xl font-bold" style="color: #B8956A;">Cedar Inn</h1>
+            <p class="font-sans text-sm tracking-widest mt-4 uppercase">Rajbagh, Srinagar</p>
+            <div class="mt-6">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#B8956A]"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compact Header with Time, Date, Weather & Dark Mode -->
+    <header class="fixed top-0 w-full z-50 glass" style="padding: 0.4rem 0;">
+        <div class="container mx-auto px-4 md:px-6">
+            <!-- Top Info Bar -->
+            <div class="flex justify-between items-center pb-1 border-b border-gray-200 dark:border-gray-700">
+                <!-- Left: Time & Date - visible on all screens -->
+                <div class="weather-widget" style="padding: 4px 10px; font-size: 0.72rem;">
+                    <i class="far fa-clock text-xs"></i>
+                    <span id="currentTime" class="font-medium">--:--:--</span>
+                    <span class="hidden xs:inline">|</span>
+                    <span id="currentDate" class="text-xs hidden sm:inline">Loading...</span>
+                </div>
+                
+                <!-- Right: Weather & Dark Mode -->
+                <div class="flex items-center gap-2">
+                    <div class="weather-widget" style="padding: 4px 10px; font-size: 0.72rem;">
+                        <i class="fas fa-map-marker-alt text-xs"></i>
+                        <span class="hidden sm:inline">Srinagar</span>
+                        <i class="fas fa-temperature-high text-xs"></i>
+                        <span id="temperature">--°C</span>
+                        <i id="weatherIcon" class="fas fa-cloud ml-1 text-xs"></i>
+                    </div>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button onclick="toggleTheme()" class="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        <i id="themeIcon" class="fas fa-moon text-sm" style="color: #B8956A;"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <div class="flex justify-between items-center pt-1.5">
+                <!-- Logo -->
+                <div class="cursor-pointer" onclick="showPage('home')">
+                    <h1 class="font-serif text-xl md:text-2xl font-bold leading-tight" style="color: #B8956A;">
+                        Cedar Inn
+                    </h1>
+                    <p class="text-xs font-sans tracking-wider opacity-70 hidden sm:block" style="font-size: 0.65rem; margin-top: -2px;">Rajbagh, Srinagar</p>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-2">
+                    <button class="nav-btn active" onclick="showPage('home')" data-page="home">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </button>
+                    <button class="nav-btn" onclick="showPage('rooms')" data-page="rooms">
+                        <i class="fas fa-bed mr-2"></i>Suites & Rooms
+                    </button>
+                    <button class="nav-btn" onclick="showPage('gallery')" data-page="gallery">
+                        <i class="fas fa-images mr-2"></i>Gallery
+                    </button>
+                    <button class="nav-btn" onclick="showPage('contact')" data-page="contact">
+                        <i class="fas fa-envelope mr-2"></i>Contact Us
+                    </button>
+                    <button class="nav-btn" onclick="showPage('privacy')" data-page="privacy">
+                        <i class="fas fa-shield-alt mr-2"></i>Privacy & Policy
+                    </button>
+                </nav>
+                
+                <!-- Mobile Menu Button - shows navigation labels -->
+                <button class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold font-sans transition hover:bg-[#B8956A] hover:text-white" id="mobileMenuBtn" onclick="toggleMobileMenu()" style="border-color: #B8956A; color: #B8956A;">
+                    <i class="fas fa-bars text-sm"></i>
+                    <span class="hidden xs:inline">Menu</span>
+                    <span class="text-xs opacity-60 hidden sm:inline">· Rooms · Gallery · Contact</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-gray-200 dark:border-gray-700 mt-2">
+            <!-- Mobile date/time bar -->
+            <div class="container mx-auto px-4 py-2 flex items-center justify-between text-xs opacity-70 border-b border-gray-100 dark:border-gray-700">
+                <span id="mobileDate" class="font-sans"></span>
+                <span id="mobileTime2" class="font-sans font-medium"></span>
+            </div>
+            <nav class="container mx-auto px-4 py-3 flex flex-col gap-1">
+                <button class="nav-btn active text-left" onclick="showPage('home'); toggleMobileMenu();" data-page="home">
+                    <i class="fas fa-home mr-2"></i>Home
+                </button>
+                <button class="nav-btn text-left" onclick="showPage('rooms'); toggleMobileMenu();" data-page="rooms">
+                    <i class="fas fa-bed mr-2"></i>Suites & Rooms
+                </button>
+                <button class="nav-btn text-left" onclick="showPage('gallery'); toggleMobileMenu();" data-page="gallery">
+                    <i class="fas fa-images mr-2"></i>Gallery
+                </button>
+                <button class="nav-btn text-left" onclick="showPage('contact'); toggleMobileMenu();" data-page="contact">
+                    <i class="fas fa-envelope mr-2"></i>Contact Us
+                </button>
+                <button class="nav-btn text-left" onclick="showPage('privacy'); toggleMobileMenu();" data-page="privacy">
+                    <i class="fas fa-shield-alt mr-2"></i>Privacy & Policy
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20 md:pt-24">
+        
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page active">
+            <!-- Hero Section with Slideshow -->
+            <section class="relative overflow-hidden" style="height: 90vh; min-height: 500px;">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                
+                <!-- Slideshow -->
+                <div class="relative h-full">
+                    <div class="hero-slide active">
+                        <img data-slot="hero_slide_1" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070" alt="Cedar Inn Exterior">
+                    </div>
+                    <div class="hero-slide">
+                        <img data-slot="hero_slide_2" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070" alt="Luxury Room">
+                    </div>
+                    <div class="hero-slide">
+                        <img data-slot="hero_slide_3" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070" alt="Kashmir Valley">
+                    </div>
+                    <div class="hero-slide">
+                        <img data-slot="hero_slide_4" src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070" alt="Hotel Dining">
+                    </div>
+                </div>
+                
+                <!-- Hero Content -->
+                <div class="absolute inset-0 z-20 flex items-center justify-center text-center text-white px-4">
+                    <div class="max-w-4xl fade-in">
+                        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+                            Welcome to Cedar Inn
+                        </h1>
+                        <p class="font-sans text-lg md:text-xl lg:text-2xl mb-8 tracking-wide">
+                            Experience Heritage Hospitality in the Heart of Rajbagh
+                        </p>
+                        <button onclick="showPage('rooms')" class="btn-primary">
+                            <i class="fas fa-bed mr-2"></i>Explore Our Rooms
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide Indicators -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-100 hover:opacity-100 transition" onclick="goToSlide(0)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(1)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(2)"></button>
+                    <button class="slide-indicator w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100 transition" onclick="goToSlide(3)"></button>
+                </div>
+            </section>
+            
+            <!-- About Section -->
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="fade-in">
+                            <img data-slot="about_building" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080" alt="Cedar Inn Building" class="rounded-lg shadow-2xl">
+                        </div>
+                        <div class="fade-in">
+                            <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-6" style="color: #B8956A;">
+                                Your Home Away From Home
+                            </h2>
+                            <p class="font-sans text-base md:text-lg leading-relaxed mb-6">
+                                Nestled in the serene locality of Rajbagh, near Modern Hospital, Cedar Inn offers an exceptional blend of traditional Kashmiri hospitality and contemporary comfort. Our prime location provides easy access to Srinagar's major attractions while maintaining a peaceful retreat atmosphere.
+                            </p>
+                            <button onclick="showPage('contact')" class="btn-secondary">
+                                <i class="fas fa-phone mr-2"></i>Contact Us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Hotel Overview -->
+            <section class="py-10 md:py-14 px-4 md:px-6 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 md:mb-10 fade-in">
+                        <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Hotel Overview
+                        </h2>
+                        <p class="font-sans text-base md:text-lg">Everything you need for a perfect stay</p>
+                    </div>
+                    
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-bed text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">45 Luxury Rooms</h3>
+                            <p class="font-sans text-sm md:text-base">Premium suites and deluxe rooms with modern amenities</p>
+                        </div>
+                        
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-utensils text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">Multi-Cuisine Restaurant</h3>
+                            <p class="font-sans text-sm md:text-base">Authentic Kashmiri and Continental delicacies</p>
+                        </div>
+                        
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-clock text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">24/7 Service</h3>
+                            <p class="font-sans text-sm md:text-base">Round-the-clock front desk and room service</p>
+                        </div>
+                        
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-user-md text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">Doctor on Call</h3>
+                            <p class="font-sans text-sm md:text-base">Medical assistance available anytime</p>
+                        </div>
+                        
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-wifi text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">Free WiFi</h3>
+                            <p class="font-sans text-sm md:text-base">High-speed internet throughout the property</p>
+                        </div>
+                        
+                        <div class="text-center p-6 md:p-8 glass rounded-xl hover-lift fade-in">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-tint text-white text-2xl md:text-3xl"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold mb-3">Hot & Cold Water</h3>
+                            <p class="font-sans text-sm md:text-base">24-hour water supply in all rooms</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Location Highlights -->
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 md:mb-10 fade-in">
+                        <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Prime Location
+                        </h2>
+                        <p class="font-sans text-base md:text-lg">Perfectly positioned for your Kashmir experience</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                        <div class="space-y-6 fade-in">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-lg md:text-xl font-bold mb-2">Near Modern Hospital</h3>
+                                    <p class="font-sans text-sm md:text-base">Located in the peaceful Rajbagh neighborhood with easy access to medical facilities</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <i class="fas fa-water text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-lg md:text-xl font-bold mb-2">Close to Dal Lake</h3>
+                                    <p class="font-sans text-sm md:text-base">Just 2 km from the iconic Dal Lake and its famous Shikara rides</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <i class="fas fa-city text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-lg md:text-xl font-bold mb-2">City Center Access</h3>
+                                    <p class="font-sans text-sm md:text-base">3 km from Lal Chowk, Srinagar's vibrant commercial hub</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center">
+                                    <i class="fas fa-plane text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-lg md:text-xl font-bold mb-2">Airport Proximity</h3>
+                                    <p class="font-sans text-sm md:text-base">13 km from Srinagar International Airport with easy transport options</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="fade-in">
+                            <img data-slot="location_kashmir" src="https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070" alt="Kashmir Valley" class="rounded-lg shadow-2xl h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Google Map Section -->
+            <section class="py-8 md:py-10 px-4 md:px-6 bg-gradient-to-br from-cream-50 to-cream-100 dark:from-gray-900 dark:to-gray-800">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-6 fade-in">
+                        <h2 class="font-serif text-2xl md:text-3xl font-bold mb-2" style="color: #B8956A;">
+                            <i class="fas fa-map-marked-alt mr-2"></i>Find Us on the Map
+                        </h2>
+                        <p class="font-sans text-sm md:text-base opacity-75">Cedar Inn, Rajbagh, Srinagar, Jammu & Kashmir</p>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl fade-in" style="height: 350px; border: 2px solid rgba(184,149,106,0.3);">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3302.0!2d74.8070!3d34.0760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e18f5b2b2b2b2b%3A0x0!2sRajbagh%2C+Srinagar%2C+Jammu+and+Kashmir+190008!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Cedar Inn Location - Rajbagh, Srinagar">
+                        </iframe>
+                    </div>
+                    <div class="mt-4 flex flex-col sm:flex-row gap-3 justify-center fade-in">
+                        <a href="https://maps.google.com/?q=Rajbagh,Srinagar,JammuAndKashmir" target="_blank" class="btn-primary text-center text-sm py-3 px-6 inline-flex items-center justify-center">
+                            <i class="fas fa-directions mr-2"></i>Get Directions
+                        </a>
+                        <a href="https://maps.google.com/?q=Cedar+Inn+Rajbagh+Srinagar" target="_blank" class="btn-secondary text-center text-sm py-3 px-6 inline-flex items-center justify-center">
+                            <i class="fab fa-google mr-2"></i>View on Google Maps
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Testimonials -->
+            <section class="py-10 md:py-14 px-4 md:px-6 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 md:mb-10 fade-in">
+                        <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            Guest Experiences
+                        </h2>
+                        <p class="font-sans text-base md:text-lg">What our valued guests say about us</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                        <div class="testimonial-card hover-lift fade-in">
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-[#B8956A]">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="font-sans text-base md:text-lg mb-6 leading-relaxed">
+                                "Cedar Inn exceeded all our expectations! The rooms were immaculate, the staff was incredibly welcoming, and the location in Rajbagh made it easy to explore Srinagar. The authentic Kashmiri breakfast was a highlight. We felt truly at home."
+                            </p>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex items-center justify-center text-white font-bold">
+                                    RK
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-serif font-bold">Rajesh Kumar</h4>
+                                    <p class="font-sans text-xs md:text-sm opacity-75">Deluxe Double Room</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card hover-lift fade-in">
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-[#B8956A]">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="font-sans text-base md:text-lg mb-6 leading-relaxed">
+                                "Outstanding hospitality! The team at Cedar Inn went above and beyond to make our family vacation memorable. The rooms were spacious and comfortable, perfect for our children. The proximity to Modern Hospital gave us peace of mind. Highly recommended!"
+                            </p>
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#B8956A] rounded-full flex items-center justify-center text-white font-bold">
+                                    PS
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-serif font-bold">Priya Sharma</h4>
+                                    <p class="font-sans text-xs md:text-sm opacity-75">Family Suite</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Twitter/Social Feed -->
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 md:mb-10 fade-in">
+                        <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style="color: #B8956A;">
+                            <i class="fab fa-twitter mr-3"></i>Latest Buzz
+                        </h2>
+                        <p class="font-sans text-base md:text-lg">See what our guests are saying on social media</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                        <div class="tweet-card fade-in">
+                            <div class="flex items-center mb-3">
+                                <i class="fab fa-twitter text-[#1DA1F2] text-xl mr-2"></i>
+                                <span class="font-bold font-sans text-sm">@TravelWithAman</span>
+                            </div>
+                            <p class="font-sans text-sm md:text-base mb-3">
+                                "Just checked into @CedarInnSrinagar - the view from my room is absolutely breathtaking! Best hotel in Rajbagh. The staff greeted us with traditional Kahwa. Feeling blessed! 🏔️❤️ #Kashmir #LuxuryTravel"
+                            </p>
+                        </div>
+                        
+                        <div class="tweet-card fade-in">
+                            <div class="flex items-center mb-3">
+                                <i class="fab fa-twitter text-[#1DA1F2] text-xl mr-2"></i>
+                                <span class="font-bold font-sans text-sm">@FoodieNomad</span>
+                            </div>
+                            <p class="font-sans text-sm md:text-base mb-3">
+                                "The Wazwan at Cedar Inn is AUTHENTIC! Had the best Rogan Josh and Gushtaba here. Chef really knows his craft. If you're in Srinagar, this is THE place for Kashmiri cuisine! 🍽️ #KashmiriFood #CedarInn"
+                            </p>
+                        </div>
+                        
+                        <div class="tweet-card fade-in">
+                            <div class="flex items-center mb-3">
+                                <i class="fab fa-twitter text-[#1DA1F2] text-xl mr-2"></i>
+                                <span class="font-bold font-sans text-sm">@WanderlustDiaries</span>
+                            </div>
+                            <p class="font-sans text-sm md:text-base mb-3">
+                                "Cedar Inn is a gem! Perfect location near Dal Lake, super clean rooms, and the most helpful staff. They arranged our entire Gulmarg trip. Can't recommend enough! 5⭐ #HotelReview #Srinagar"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Newsletter -->
+            <section class="py-8 md:py-12 px-4 md:px-6">
+                <div class="container mx-auto max-w-4xl text-center fade-in">
+                    <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold mb-4" style="color: #B8956A;">
+                        Stay Updated
+                    </h2>
+                    <p class="font-sans text-base md:text-lg mb-8">Subscribe to receive exclusive offers and Kashmir travel tips</p>
+                    <div class="flex flex-col md:flex-row gap-4 max-w-xl mx-auto">
+                        <input type="email" placeholder="Enter your email" class="form-input flex-1">
+                        <button class="btn-primary whitespace-nowrap">
+                            <i class="fas fa-paper-plane mr-2"></i>Subscribe
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- SUITES & ROOMS PAGE -->
+        <div id="roomsPage" class="page">
+            <section class="py-16 md:py-20 px-4 md:px-6">
+                <div class="container mx-auto max-w-7xl">
+                    <div class="text-center mb-12 md:mb-16 fade-in">
+                        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: #B8956A;">
+                            Suites & Rooms
+                        </h1>
+                        <p class="font-sans text-lg md:text-xl max-w-3xl mx-auto">
+                            Experience comfort and luxury in our thoughtfully designed accommodations, each offering stunning views and premium amenities
+                        </p>
+                    </div>
+                    
+                    <!-- Room Cards -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        <!-- Deluxe Room -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_deluxe" src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070" alt="Deluxe Room" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Deluxe Room</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Perfect for couples and solo travelers</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        King-size bed
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        250 sq.ft room
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Valley view
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Free WiFi & breakfast
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹4,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Premium Double Room -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_premium_double" src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2070" alt="Premium Double Room" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Premium Double Room</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Spacious accommodation for small families</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Twin beds or King
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        320 sq.ft room
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Garden view balcony
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Mini-bar & coffee maker
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹6,200</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Heritage Family Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_heritage_family" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070" alt="Heritage Family Suite" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Heritage Family Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Ideal for families seeking extra space</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Separate living area
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        450 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        2 bathrooms
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Kids welcome amenities
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹9,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Executive Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_executive" src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2070" alt="Executive Suite" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Executive Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Premium comfort for discerning guests</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Premium king bed
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        380 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Work desk & lounge
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Complimentary upgrade
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹7,800</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Royal Jhelum Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_royal_jhelum" src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070" alt="Royal Jhelum Suite" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Royal Jhelum Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Our signature luxury experience</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Master bedroom + lounge
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        600 sq.ft suite
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Jacuzzi & premium bath
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Butler service
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹14,500</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Presidential Suite -->
+                        <div class="room-card bg-white dark:bg-gray-800 shadow-xl hover-lift fade-in">
+                            <div class="overflow-hidden">
+                                <img data-slot="room_presidential" src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070" alt="Presidential Suite" class="w-full h-56 md:h-64 object-cover">
+                            </div>
+                            <div class="p-5 md:p-6">
+                                <h3 class="font-serif text-xl md:text-2xl font-bold mb-2">Presidential Suite</h3>
+                                <p class="font-sans text-sm mb-4 opacity-75">Ultimate luxury and exclusivity</p>
+                                <ul class="space-y-2 mb-6 font-sans text-sm">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        2 bedrooms + dining
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        850 sq.ft penthouse
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        Private terrace
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-2" style="color: #B8956A;"></i>
+                                        24/7 concierge
+                                    </li>
+                                </ul>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-serif text-2xl md:text-3xl font-bold" style="color: #B8956A;">₹22,000</span>
+                                        <span class="font-sans text-sm opacity-75">/night</span>
+                                    </div>
+                                    <button onclick="showPage('contact')" class="bg-[#B8956A] hover:bg-[#5C4033] text-white font-sans font-semibold px-4 md:px-6 py-2 rounded-lg transition duration-300 text-sm">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Room Features -->
+                    <div class="mt-16 md:mt-20 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900 rounded-xl p-8 md:p-12 fade-in">
+                        <h2 class="font-serif text-2xl md:text-3xl font-bold mb-8 text-center" style="color: #B8956A;">All Rooms Include</h2>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-wifi text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">High-Speed WiFi</h3>
+                                <p class="font-sans text-sm">Complimentary throughout stay</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-tv text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Smart TV</h3>
+                                <p class="font-sans text-sm">Cable & streaming services</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-tint text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Hot Water</h3>
+                                <p class="font-sans text-sm">24/7 availability</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-14 h-14 md:w-16 md:h-16 bg-[#B8956A] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-coffee text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif font-bold mb-2">Breakfast</h3>
+                                <p class="font-sans text-sm">Complimentary Kashmiri cuisine</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- GALLERY PAGE -->
+        <div id="galleryPage" class="page">
+            <section class="py-16 md:py-20 px-4 md:px-6">
+                <div class="container mx-auto max-w-7xl">
+                    <div class="text-center mb-12 md:mb-16 fade-in">
+                        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style="color: #B8956A;">
+                            Gallery
+                        </h1>
+                        <p class="font-sans text-lg md:text-xl max-w-3xl mx-auto">
+                            A visual journey through Cedar Inn's elegant spaces and the breathtaking beauty of Kashmir
+                        </p>
+                    </div>
+                    
+                    <!-- Gallery Grid -->
+                    <div class="columns-1 md:columns-2 lg:columns-3 gap-4 md:gap-6 space-y-4 md:space-y-6">
+                        <!-- Hotel Exterior -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_1" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070" alt="Cedar Inn Exterior" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Cedar Inn Exterior View</p>
+                        </div>
+                        
+                        <!-- Rooms -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_2" src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070" alt="Deluxe Room" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Deluxe Room Interior</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_3" src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2070" alt="Suite Bathroom" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Luxury Suite Bathroom</p>
+                        </div>
+                        
+                        <!-- Kashmir Scenery -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_4" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070" alt="Dal Lake" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Dal Lake Shikara Ride</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_5" src="https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070" alt="Kashmir Mountains" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Himalayan Mountain Views</p>
+                        </div>
+                        
+                        <!-- Dining -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_6" src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070" alt="Restaurant" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Multi-Cuisine Restaurant</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_7" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2074" alt="Kashmiri Cuisine" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Authentic Kashmiri Wazwan</p>
+                        </div>
+                        
+                        <!-- More Rooms -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_8" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070" alt="Presidential Suite" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Presidential Suite Living Area</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_9" src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070" alt="Room Balcony" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Room with Valley View Balcony</p>
+                        </div>
+                        
+                        <!-- Kashmir Tourism -->
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_10" src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?q=80&w=2070" alt="Gulmarg" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Gulmarg Ski Resort</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_11" src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2064" alt="Srinagar Gardens" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Mughal Gardens</p>
+                        </div>
+                        
+                        <div class="gallery-item break-inside-avoid fade-in">
+                            <img data-slot="gallery_12" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080" alt="Hotel Lobby" class="w-full rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                            <p class="font-sans text-sm mt-2 text-center opacity-75">Elegant Hotel Lobby</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- CONTACT US PAGE -->
+        <div id="contactPage" class="page">
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-8 fade-in">
+                        <h1 class="font-serif text-3xl md:text-5xl font-bold mb-3" style="color: #B8956A;">Contact Us</h1>
+                        <p class="font-sans text-base md:text-lg max-w-3xl mx-auto opacity-80">We're here to make your Kashmir experience unforgettable. Get in touch with us today.</p>
+                    </div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-6 md:gap-10">
+                        <!-- Booking Form -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-5 md:p-7 fade-in">
+                            <h2 class="font-serif text-2xl md:text-3xl font-bold mb-5" style="color: #B8956A;">
+                                <i class="fas fa-calendar-check mr-2"></i>Book Hotel Online
+                            </h2>
+
+                            <!-- Success Message -->
+                            <div id="bookingSuccess" class="hidden mb-5 p-5 rounded-xl text-center" style="background: linear-gradient(135deg, rgba(184,149,106,0.12), rgba(92,64,51,0.08)); border: 1.5px solid rgba(184,149,106,0.5);">
+                                <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                                <h3 class="font-serif text-xl font-bold mb-2" style="color: #B8956A;">Booking Request Received!</h3>
+                                <p class="font-sans text-sm leading-relaxed">We have received your response.<br><strong>We will contact you as soon as possible</strong> to confirm your reservation.</p>
+                                <p class="font-sans text-xs mt-3 opacity-60">For urgent queries, call us at <strong>+91 9906000000</strong></p>
+                            </div>
+
+                            <form id="bookingForm" class="space-y-4" onsubmit="submitBooking(event)">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Full Name *</label>
+                                        <input type="text" class="form-input" placeholder="Your full name" required>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Mobile *</label>
+                                        <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="font-sans text-sm font-medium mb-1.5 block">Email *</label>
+                                    <input type="email" class="form-input" placeholder="your.email@example.com" required>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Check-In Date *</label>
+                                        <input type="date" class="form-input" required>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Check-Out Date *</label>
+                                        <input type="date" class="form-input" required>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Room Type</label>
+                                        <select class="form-input text-sm">
+                                            <option value="">Any Room</option>
+                                            <option>Deluxe Room</option>
+                                            <option>Premium Double</option>
+                                            <option>Heritage Family Suite</option>
+                                            <option>Executive Suite</option>
+                                            <option>Royal Jhelum Suite</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Adults</label>
+                                        <select class="form-input text-sm">
+                                            <option>1</option><option selected>2</option><option>3</option><option>4</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="font-sans text-sm font-medium mb-1.5 block">Children</label>
+                                        <select class="form-input text-sm">
+                                            <option selected>0</option><option>1</option><option>2</option><option>3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="font-sans text-sm font-medium mb-1.5 block">Special Requests</label>
+                                    <textarea class="form-input" rows="3" placeholder="Any special requirements or travel plans..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">
+                                    <i class="fas fa-paper-plane mr-2"></i>Submit Booking Request
+                                </button>
+                                <p class="font-sans text-xs text-center opacity-60">By submitting, you agree to our <a href="#" onclick="showPage('privacy'); return false;" style="color:#B8956A;" class="hover:underline">Privacy Policy & Terms</a></p>
+                            </form>
+                        </div>
+                        
+                        <!-- Contact Info -->
+                        <div class="fade-in space-y-5">
+                            <div class="rounded-xl overflow-hidden shadow-xl" style="height:230px;">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.234567890123!2d74.8012345!3d34.0836789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDA1JzAxLjIiTiA3NMKwNDgnMDQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-5 space-y-4">
+                                <h3 class="font-serif text-lg font-bold" style="color: #B8956A;">Contact Details</h3>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-map-marker-alt text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Address</h4><p class="font-sans text-sm opacity-75">Rajbagh, Near Modern Hospital, Srinagar, J&K — 190008</p></div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-phone text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Phone</h4><p class="font-sans text-sm opacity-75">+91 194 2480100 · +91 194 2480101<br>Mobile: +91 9906000000</p></div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-envelope text-white text-sm"></i></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Email</h4><p class="font-sans text-sm opacity-75"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3c55525a537c5f59585d4e555252125552">[email&#160;protected]</a> · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="285a4d5b4d5a5e495c4147465b684b4d4c495a414646064146">[email&#160;protected]</a></p></div>
+                                </div>
+                            </div>
+                            <div class="rounded-xl p-5 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
+                                <h3 class="font-serif text-lg font-bold mb-3" style="color: #B8956A;">How to Reach Us</h3>
+                                <div class="space-y-3 font-sans text-sm">
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-plane mr-2" style="color:#B8956A;"></i>From Airport</p><p class="opacity-75 leading-relaxed">13 km from Srinagar International Airport. Prepaid taxi or our airport pickup available.</p></div>
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-car mr-2" style="color:#B8956A;"></i>By Car / Taxi</p><p class="opacity-75 leading-relaxed">From Lal Chowk, head towards Rajbagh. Hotel is near Modern Hospital, well-signposted.</p></div>
+                                    <div><p class="font-semibold mb-0.5"><i class="fas fa-bus mr-2" style="color:#B8956A;"></i>Local Transport</p><p class="opacity-75 leading-relaxed">2 km from Dal Lake, 3 km from Tourist Reception Center. Auto-rickshaws readily available.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PRIVACY & POLICY PAGE -->
+        <div id="privacyPage" class="page">
+            <section class="py-10 md:py-14 px-4 md:px-6">
+                <div class="container mx-auto max-w-4xl">
+                    <div class="text-center mb-8 fade-in">
+                        <h1 class="font-serif text-3xl md:text-5xl font-bold mb-3" style="color: #B8956A;"><i class="fas fa-shield-alt mr-3"></i>Privacy &amp; Policy</h1>
+                        <p class="font-sans text-sm opacity-60">Cedar Inn, Rajbagh, Srinagar &nbsp;·&nbsp; Last updated: 2026</p>
+                    </div>
+
+                    <div class="space-y-6 fade-in">
+
+                        <!-- Reservation Policy -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-calendar-alt text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Reservation Policy</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Please make advance reservations via telephone or book online to assure room availability.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>A deposit is required to obtain a confirmed reservation. Please note the cancellation policy before committing to a reservation.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Rates may change without notice and may vary for special events except for confirmed reservations (deposit taken).</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">4</span><p>All rates are inclusive of tax on room tariff.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Deposit Policy -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-credit-card text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Deposit Policy</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>To confirm your reservation, a deposit equal to a minimum of one night's room rate, or 50% of the entire stay's cost — whichever is more — is required. We accept Maestro, Visa and MasterCard. For alternate arrangements, please contact the Hotel.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>For Corporate reservations secured by a company credit card, the deposit requirement may be waived at the discretion of the Hotel. Please inquire before making a reservation.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Group bookings of four or more rooms require a 30-day cancellation notice for return of the deposit.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Check-In / Check-Out -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-clock text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Check-In / Check-Out</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Normal check-in time is <strong>2:00 PM onwards</strong>. For late arrivals, please call for instructions on the procedure for arrival after 9 PM.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>Check-out is at <strong>12:00 Noon</strong>.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Early check-in and late check-out are possible on availability only, by prior arrangement. Each is subject to an additional charge of <strong>₹750</strong>.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Children & Infants -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-child text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Children &amp; Infants</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">1</span><p>Children up to 5 years can stay free of charge with parents using existing beds. No free extra bed and no meal is provided in normal cases. Breakfast till age 5 is complimentary; above that, normal menu charges apply.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">2</span><p>If an extra bed is required for a child aged 2–5 years, the third person's rate applies. Please select "3 adults" in the reservation form — you will receive 3 breakfasts unless stated otherwise.</p></div>
+                                <div class="flex gap-3"><span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#B8956A;">3</span><p>Cots for infants can be requested, subject to availability.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Modification -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-edit text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Modification Policy</h2>
+                            </div>
+                            <div class="p-6 font-sans text-sm leading-relaxed">
+                                <p>We require a few days before the original arrival date for any amendment request. All modifications are subject to availability at the time of the request. Modifications made less than <strong>7 days</strong> before the original arrival date may incur a late modification fee of <strong>₹500</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- No Show -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-user-slash text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Non-Arrival (No Show)</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <p>If you fail to arrive at the hotel on the arrival date, the entire reservation will be cancelled automatically and you will be charged the cost of the whole reservation.</p>
+                                <p>If you fail to check in on the first date but still intend to continue your stay, please <strong>urgently contact us</strong> so we can hold the room for the remaining nights. Otherwise, the entire reservation will be auto-cancelled and no refund will be issued.</p>
+                            </div>
+                        </div>
+
+                        <!-- Early Check-Out -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#B8956A,#5C4033);">
+                                <i class="fas fa-door-open text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Shorten Stay (Early Check-Out)</h2>
+                            </div>
+                            <div class="p-6 space-y-3 font-sans text-sm leading-relaxed">
+                                <p>A shortened stay is subject to the charge for the whole reserved period, whether or not you stay for the entire duration.</p>
+                                <p>If you know your plans are changing, please contact us as early as possible to minimise any charges.</p>
+                            </div>
+                        </div>
+
+                        <!-- Photo & Media Rights -->
+                        <div class="rounded-xl shadow-lg overflow-hidden" style="border: 2px solid #B8956A;">
+                            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg,#3E2723,#5C4033);">
+                                <i class="fas fa-camera text-white text-lg"></i>
+                                <h2 class="font-serif text-xl font-bold text-white">Photo, Video &amp; Media Rights</h2>
+                            </div>
+                            <div class="p-6 font-sans text-sm leading-relaxed" style="background: rgba(184,149,106,0.05);">
+                                <p class="mb-3">All photographs, videos, and multimedia content displayed on the Cedar Inn website and any associated platforms are the <strong>exclusive property of Cedar Inn</strong> and are protected under applicable copyright laws.</p>
+                                <p class="mb-3"><strong>No person, organisation, or entity is permitted to copy, reproduce, redistribute, publish, or use any photo or video content</strong> from Cedar Inn in any form — digital or print — without prior written permission from the Administration.</p>
+                                <p>To request permission for use of any media content, please contact us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f69f989099b695939297849f9898d89f98">[email&#160;protected]</a></strong> or reach out to the hotel administration directly.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-8 text-center fade-in">
+                        <button onclick="showPage('contact')" class="btn-primary">
+                            <i class="fas fa-calendar-check mr-2"></i>Book Your Stay
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#3E2723] text-white py-10 md:py-12 px-4 md:px-6">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-serif text-xl md:text-2xl font-bold mb-4" style="color: #B8956A;">Cedar Inn</h3>
+                    <p class="font-sans text-sm leading-relaxed opacity-80">
+                        Experience authentic Kashmiri hospitality in the heart of Rajbagh, Srinagar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="font-sans text-sm space-y-2">
+                        <li><a href="#" onclick="showPage('home'); return false;" class="hover:text-[#B8956A] transition">Home</a></li>
+                        <li><a href="#" onclick="showPage('rooms'); return false;" class="hover:text-[#B8956A] transition">Rooms</a></li>
+                        <li><a href="#" onclick="showPage('gallery'); return false;" class="hover:text-[#B8956A] transition">Gallery</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;" class="hover:text-[#B8956A] transition">Contact</a></li>
+                        <li><a href="#" onclick="showPage('privacy'); return false;" class="hover:text-[#B8956A] transition">Privacy &amp; Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Contact Info</h4>
+                    <ul class="font-sans text-sm space-y-2 opacity-80">
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Rajbagh, Srinagar</li>
+                        <li><i class="fas fa-phone mr-2"></i>+91 9906000000</li>
+                        <li><i class="fas fa-envelope mr-2"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1f767179705f7c7a7b7e6d767171317c7072">[email&#160;protected]</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-[#B8956A] rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/20 pt-8 text-center font-sans text-sm opacity-75">
+                <p>&copy; 2026 Cedar Inn Hospitality. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919906000000" target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-14 h-14 md:w-16 md:h-16 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition duration-300 z-50">
+        <i class="fab fa-whatsapp text-2xl md:text-3xl"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // ============================================================
+        // CONFIGURATION — SET YOUR CLOUDFLARE WORKER URL HERE
+        // ============================================================
+        const WORKER_URL = 'https://YOUR-WORKER.workers.dev'; // ← Replace with your deployed Worker URL
+        // ============================================================
+
+        // Page Navigation
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            const pageMap = {
+                'home': 'homePage',
+                'rooms': 'roomsPage',
+                'gallery': 'galleryPage',
+                'contact': 'contactPage',
+                'privacy': 'privacyPage'
+            };
+            document.getElementById(pageMap[pageName]).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.page === pageName) btn.classList.add('active');
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (savedTheme === 'dark') {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        })();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        // Time and Date Update
+        function updateTimeAndDate() {
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            document.getElementById('currentTime').textContent = timeStr;
+            document.getElementById('currentDate').textContent = dateStr;
+            const mobDate = document.getElementById('mobileDate');
+            const mobTime2 = document.getElementById('mobileTime2');
+            if (mobDate) mobDate.textContent = dateStr;
+            if (mobTime2) mobTime2.textContent = timeStr;
+        }
+
+        // Real-time Weather API for Srinagar
+        async function updateWeather() {
+            try {
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=34.0837&longitude=74.7973&current=temperature_2m,weathercode&timezone=Asia%2FKolkata');
+                const data = await response.json();
+                if (data && data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    document.getElementById('temperature').textContent = `${temp}°C`;
+                    const weatherIcon = document.getElementById('weatherIcon');
+                    const weatherCode = data.current.weathercode;
+                    if (weatherCode === 0) weatherIcon.className = 'fas fa-sun ml-1';
+                    else if (weatherCode <= 3) weatherIcon.className = 'fas fa-cloud ml-1';
+                    else if (weatherCode <= 67) weatherIcon.className = 'fas fa-cloud-rain ml-1';
+                    else if (weatherCode <= 77) weatherIcon.className = 'fas fa-snowflake ml-1';
+                    else weatherIcon.className = 'fas fa-cloud ml-1';
+                }
+            } catch (error) {
+                document.getElementById('temperature').textContent = '--°C';
+            }
+        }
+
+        // ============================================================
+        // DYNAMIC IMAGE LOADING FROM SUPABASE VIA CLOUDFLARE WORKER
+        // Images with real uploads override mock/placeholder images
+        // ============================================================
+        async function loadDynamicImages() {
+            try {
+                const res = await fetch(`${WORKER_URL}/api/images`);
+                if (!res.ok) return; // silently fall back to mock images if worker unreachable
+                const images = await res.json();
+
+                // Apply each image to its corresponding element(s) via data-slot attribute
+                Object.entries(images).forEach(([slotKey, imgData]) => {
+                    const elements = document.querySelectorAll(`[data-slot="${slotKey}"]`);
+                    elements.forEach(el => {
+                        if (el.tagName === 'IMG') {
+                            el.src = imgData.url;
+                        } else {
+                            el.style.backgroundImage = `url('${imgData.url}')`;
+                        }
+                    });
+                });
+            } catch (e) {
+                console.log('Image API unavailable, using built-in images:', e.message);
+                // Website works perfectly without the API — mock images are always shown
+            }
+        }
+
+        // Hero Slideshow
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.slide-indicator');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.style.opacity = '0.5');
+            slides[index].classList.add('active');
+            indicators[index].style.opacity = '1';
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            showSlide(currentSlideIndex);
+        }
+
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            showSlide(currentSlideIndex);
+        }
+
+        setInterval(nextSlide, 5000);
+
+        // Scroll-triggered fade animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(el);
+        });
+
+        // ============================================================
+        // BOOKING FORM SUBMIT — sends to Cloudflare Worker → Supabase + Telegram
+        // ============================================================
+        async function submitBooking(e) {
+            e.preventDefault();
+            const form = document.getElementById('bookingForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const success = document.getElementById('bookingSuccess');
+
+            // Collect form data
+            const inputs = form.querySelectorAll('input, select, textarea');
+            const data = {
+                name: inputs[0].value.trim(),
+                mobile: inputs[1].value.trim(),
+                email: inputs[2].value.trim(),
+                check_in: inputs[3].value,
+                check_out: inputs[4].value,
+                room_type: inputs[5].value,
+                adults: inputs[6].value,
+                children: inputs[7].value,
+                special_requests: inputs[8] ? inputs[8].value.trim() : '',
+            };
+
+            // Validation
+            if (!data.name || !data.mobile || !data.email || !data.check_in || !data.check_out) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+            try {
+                const res = await fetch(`${WORKER_URL}/api/booking`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+
+                if (!res.ok || result.error) {
+                    throw new Error(result.error || 'Submission failed');
+                }
+
+                // Show success
+                form.style.transition = 'opacity 0.3s ease';
+                form.style.opacity = '0';
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    success.classList.remove('hidden');
+                    success.style.opacity = '0';
+                    success.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => { success.style.opacity = '1'; }, 50);
+                }, 300);
+
+            } catch (err) {
+                alert('Failed to submit booking. Please call us directly at +91 9906000000');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Booking Request';
+            }
+        }
+
+        // HIDE LOADER
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                loader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }
+        }
+
+        // On DOMContentLoaded: hide loader, load images, start clock & weather
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(hideLoader, 800);
+                loadDynamicImages();
+                updateTimeAndDate();
+                setInterval(updateTimeAndDate, 1000);
+                updateWeather();
+                setInterval(updateWeather, 10 * 60 * 1000);
+            });
+        } else {
+            setTimeout(hideLoader, 800);
+            loadDynamicImages();
+            updateTimeAndDate();
+            setInterval(updateTimeAndDate, 1000);
+            updateWeather();
+            setInterval(updateWeather, 10 * 60 * 1000);
+        }
+        // Legacy compat — keep this at bottom of file
+        if (false) {
+   
