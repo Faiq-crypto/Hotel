@@ -240,10 +240,6 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <h1>🏨 Cedar Inn</h1>
     <p>Admin Panel · Secure Login</p>
     <div class="form-group">
-      <label>Worker URL</label>
-      <input type="text" id="workerUrl" placeholder="https://your-worker.workers.dev" value="">
-    </div>
-    <div class="form-group">
       <label>Admin Password</label>
       <input type="password" id="loginPassword" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
@@ -403,7 +399,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <div class="upload-zone" id="uploadZone" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
       <i class="fas fa-cloud-upload-alt"></i>
       <strong>Click to upload</strong> or drag & drop<br>
-      <span style="font-size:0.75rem;">JPG, PNG, WebP — max 5MB</span>
+      <span style="font-size:0.75rem;">JPG, PNG, WebP, HEIC, GIF — max 10MB</span>
     </div>
     <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
 
@@ -442,7 +438,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 // ================================================================
 // STATE
 // ================================================================
-let WORKER_URL = '';
+const WORKER_URL = 'https://cedarinn.khanullah1029.workers.dev';
 let AUTH_TOKEN = '';
 let allImages = [];
 let currentSlotKey = '';
@@ -452,12 +448,10 @@ let selectedFile = null;
 // LOGIN
 // ================================================================
 async function doLogin() {
-  const workerUrl = document.getElementById('workerUrl').value.trim().replace(/\/$/, '');
-  const password = document.getElementById('loginPassword').value;
+  const password = document.getElementById('loginPassword').value.trim();
   const btn = document.getElementById('loginBtn');
   const errEl = document.getElementById('loginError');
 
-  if (!workerUrl) { errEl.textContent = 'Please enter your Cloudflare Worker URL'; return; }
   if (!password) { errEl.textContent = 'Please enter your admin password'; return; }
 
   btn.disabled = true;
@@ -465,7 +459,7 @@ async function doLogin() {
   errEl.textContent = '';
 
   try {
-    const res = await fetch(`${workerUrl}/api/admin/login`, {
+    const res = await fetch(`${WORKER_URL}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
@@ -479,9 +473,7 @@ async function doLogin() {
       return;
     }
 
-    WORKER_URL = workerUrl;
     AUTH_TOKEN = data.token;
-    localStorage.setItem('cedar_worker_url', workerUrl);
     localStorage.setItem('cedar_token', data.token);
 
     document.getElementById('loginScreen').style.display = 'none';
@@ -497,7 +489,6 @@ async function doLogin() {
 
 function logout() {
   AUTH_TOKEN = '';
-  WORKER_URL = '';
   localStorage.removeItem('cedar_token');
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
@@ -505,11 +496,8 @@ function logout() {
 
 // Auto-restore session
 window.addEventListener('DOMContentLoaded', () => {
-  const savedUrl = localStorage.getItem('cedar_worker_url');
   const savedToken = localStorage.getItem('cedar_token');
-  if (savedUrl) document.getElementById('workerUrl').value = savedUrl;
-  if (savedUrl && savedToken) {
-    WORKER_URL = savedUrl;
+  if (savedToken) {
     AUTH_TOKEN = savedToken;
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
@@ -560,10 +548,12 @@ function renderImages(filter) {
   grid.innerHTML = filtered.map(img => {
     const hasReal = !!img.url;
     const displayUrl = img.url || img.fallback_url;
+    const cacheBust = hasReal ? '?t=' + Date.now() : '';
     return `
     <div class="image-card" id="card-${img.slot_key}">
       <div class="image-preview">
-        <img src="${displayUrl}" alt="${img.label}" onerror="this.src='https://via.placeholder.com/400x200?text=Image+Error'">
+        <img src="${displayUrl}${cacheBust}" alt="${img.label}"
+          onerror="this.onerror=null;this.style.objectFit='contain';this.style.padding='1rem';this.style.background='#1a2234';this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'100\\'%3E%3Crect width=\\'200\\' height=\\'100\\' fill=\\'%231a2234\\'/%3E%3Ctext x=\\'50%25\\' y=\\'45%25\\' fill=\\'%239ca3af\\' font-family=\\'sans-serif\\' font-size=\\'12\\' text-anchor=\\'middle\\'%3EImage Load Error%3C/text%3E%3Ctext x=\\'50%25\\' y=\\'65%25\\' fill=\\'%236b7280\\' font-family=\\'sans-serif\\' font-size=\\'10\\' text-anchor=\\'middle\\'%3EClick Upload to replace%3C/text%3E%3C/svg%3E'">
         <span class="image-badge ${hasReal ? 'badge-real' : 'badge-mock'}">${hasReal ? '✓ REAL' : '⚠ MOCK'}</span>
       </div>
       <div class="image-card-body">
@@ -626,12 +616,13 @@ function handleFileSelect(e) {
 }
 
 function previewFile(file) {
-  if (!file.type.startsWith('image/')) {
-    showToast('Please select an image file', 'error');
+  const isImage = file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|heic|heif|gif|bmp|tiff|avif)$/i.test(file.name);
+  if (!isImage) {
+    showToast('Please select an image file (JPG, PNG, WebP, HEIC, etc.)', 'error');
     return;
   }
-  if (file.size > 5 * 1024 * 1024) {
-    showToast('File too large. Max 5MB', 'error');
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('File too large. Max 10MB', 'error');
     return;
   }
   selectedFile = file;
@@ -651,28 +642,18 @@ async function uploadFile() {
   const btn = document.getElementById('uploadBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Uploading...';
-  document.getElementById('uploadStatus').textContent = 'Getting upload URL...';
-  setProgress(10);
+  document.getElementById('uploadStatus').textContent = 'Converting image...';
+  setProgress(20);
 
   try {
-    // Step 1: get upload info from worker
-    const urlRes = await authFetch('/api/admin/upload-url', {
-      method: 'POST',
-      body: JSON.stringify({ filename: selectedFile.name, content_type: selectedFile.type }),
-    });
-    const { public_url } = await urlRes.json();
-    setProgress(30);
-
-    // Step 2: upload directly to Supabase Storage
-    document.getElementById('uploadStatus').textContent = 'Uploading image...';
-    // We can't upload via CORS to Supabase directly from admin panel without service key
-    // Instead we'll convert to base64 and send via worker
+    // Convert file to base64
     const base64 = await fileToBase64(selectedFile);
-    setProgress(60);
+    setProgress(50);
 
-    document.getElementById('uploadStatus').textContent = 'Saving to storage...';
+    document.getElementById('uploadStatus').textContent = 'Uploading to storage...';
+    setProgress(70);
 
-    // Upload via worker as base64
+    // Upload via worker as base64 — supports JPG, PNG, WebP, GIF, etc.
     const uploadRes = await authFetch('/api/admin/upload-image', {
       method: 'POST',
       body: JSON.stringify({
@@ -683,18 +664,23 @@ async function uploadFile() {
       }),
     });
 
+    const result = await uploadRes.json();
+
     if (!uploadRes.ok) {
-      // Fallback: save public_url anyway if storage returns URL
-      const errData = await uploadRes.json();
-      throw new Error(errData.error || 'Upload failed');
+      throw new Error(result.error || 'Upload failed');
     }
 
-    const result = await uploadRes.json();
     setProgress(100);
 
-    // Update local state
+    // Update local state so card refreshes immediately
     const img = allImages.find(i => i.slot_key === currentSlotKey);
-    if (img) img.url = result.url || public_url;
+    if (img) img.url = result.url;
+
+    // Also directly update the card image in DOM
+    const cardImg = document.querySelector(`#card-${currentSlotKey} .image-preview img`);
+    if (cardImg && result.url) {
+      cardImg.src = result.url + '?t=' + Date.now(); // cache-bust
+    }
 
     document.getElementById('uploadStatus').textContent = '✓ Uploaded successfully!';
     showToast('Image uploaded successfully!', 'success');
@@ -708,6 +694,10 @@ async function uploadFile() {
     showToast('Upload failed: ' + e.message, 'error');
     setProgress(0);
   } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-upload mr-1"></i> Upload & Save';
+  }
+}
     btn.disabled = false;
     btn.innerHTML = '<i class="fas fa-upload mr-1"></i> Upload & Save';
   }
@@ -730,6 +720,10 @@ async function saveDirectUrl() {
 
     const img = allImages.find(i => i.slot_key === currentSlotKey);
     if (img) img.url = url;
+
+    // Immediately update card image in DOM
+    const cardImg = document.querySelector(`#card-${currentSlotKey} .image-preview img`);
+    if (cardImg) cardImg.src = url + '?t=' + Date.now();
 
     showToast('Image URL saved!', 'success');
     renderImages(getCurrentFilter());
