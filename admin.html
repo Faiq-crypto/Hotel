@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cedar Inn — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #B8956A;
+  --brown: #5C4033;
+  --dark: #1a1a1a;
+  --sidebar: #111827;
+  --card: #1f2937;
+  --border: #374151;
+  --text: #f9fafb;
+  --muted: #9ca3af;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: var(--text); min-height: 100vh; }
+
+/* ── LOGIN SCREEN ── */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+.login-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 3rem; width: 100%; max-width: 420px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+}
+.login-card h1 { font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: 0.5rem; }
+.login-card p { color: var(--muted); font-size: 0.875rem; margin-bottom: 2rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.875rem; font-weight: 500; color: var(--muted); margin-bottom: 0.5rem; }
+.form-group input {
+  width: 100%; padding: 0.875rem 1rem;
+  background: #0f172a; border: 1.5px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.form-group input:focus { outline: none; border-color: var(--gold); }
+.btn-gold {
+  width: 100%; padding: 0.875rem;
+  background: linear-gradient(135deg, var(--gold), var(--brown));
+  color: white; border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-gold:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-gold:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 1rem; text-align: center; }
+
+/* ── MAIN APP ── */
+#app { display: none; }
+
+/* Sidebar */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 260px; min-width: 260px; background: var(--sidebar);
+  border-right: 1px solid var(--border); display: flex; flex-direction: column;
+  position: fixed; height: 100vh; overflow-y: auto; z-index: 100;
+}
+.sidebar-logo {
+  padding: 1.5rem; border-bottom: 1px solid var(--border);
+}
+.sidebar-logo h2 { font-size: 1.25rem; font-weight: 700; color: var(--gold); }
+.sidebar-logo p { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+.sidebar-nav { padding: 1rem 0; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 1.25rem; cursor: pointer;
+  color: var(--muted); font-size: 0.875rem; font-weight: 500;
+  transition: all 0.2s; border-left: 3px solid transparent;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-item.active { color: var(--gold); background: rgba(184,149,106,0.1); border-left-color: var(--gold); }
+.nav-item i { width: 20px; text-align: center; }
+.sidebar-footer { padding: 1rem 1.25rem; border-top: 1px solid var(--border); }
+.logout-btn {
+  display: flex; align-items: center; gap: 0.75rem;
+  color: var(--danger); font-size: 0.875rem; font-weight: 500;
+  cursor: pointer; padding: 0.5rem;
+  border-radius: 8px; transition: background 0.2s;
+}
+.logout-btn:hover { background: rgba(239,68,68,0.1); }
+
+/* Main Content */
+.main-content { margin-left: 260px; flex: 1; padding: 2rem; min-height: 100vh; }
+.page-header { margin-bottom: 2rem; }
+.page-header h1 { font-size: 1.75rem; font-weight: 700; }
+.page-header p { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.25rem;
+}
+.stat-card .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-card .value { font-size: 2rem; font-weight: 700; color: var(--gold); margin-top: 0.5rem; }
+.stat-card .sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+/* Section filter tabs */
+.section-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.tab-btn {
+  padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+  cursor: pointer; border: 1.5px solid var(--border); background: transparent;
+  color: var(--muted); transition: all 0.2s;
+}
+.tab-btn:hover { color: var(--text); border-color: var(--gold); }
+.tab-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
+
+/* Image Grid */
+.images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.image-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; transition: border-color 0.2s;
+}
+.image-card:hover { border-color: var(--gold); }
+.image-preview {
+  position: relative; height: 180px; background: #0f172a; overflow: hidden;
+}
+.image-preview img { width: 100%; height: 100%; object-fit: cover; }
+.image-badge {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  padding: 0.25rem 0.625rem; border-radius: 6px;
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+}
+.badge-real { background: rgba(16,185,129,0.2); color: var(--success); border: 1px solid var(--success); }
+.badge-mock { background: rgba(245,158,11,0.2); color: var(--warning); border: 1px solid var(--warning); }
+.image-card-body { padding: 1rem; }
+.image-card-body h3 { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.25rem; }
+.image-card-body p { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.75rem; font-family: monospace; }
+.image-actions { display: flex; gap: 0.5rem; }
+
+/* Upload area */
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 10px;
+  padding: 1.5rem; text-align: center; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 0.85rem; color: var(--muted);
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--gold); background: rgba(184,149,106,0.05); color: var(--text);
+}
+.upload-zone i { font-size: 2rem; color: var(--gold); margin-bottom: 0.5rem; display: block; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+  padding: 1rem;
+}
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+.modal p { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
+
+/* Bookings table */
+.table-wrapper { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 1rem; text-align: left; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: rgba(0,0,0,0.2); }
+td { padding: 1rem; font-size: 0.875rem; border-top: 1px solid var(--border); vertical-align: top; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.status-badge {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  padding: 0.25rem 0.625rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+}
+.status-pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+.status-confirmed { background: rgba(16,185,129,0.15); color: var(--success); }
+.status-cancelled { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+/* Buttons */
+.btn-sm {
+  padding: 0.4rem 0.875rem; border-radius: 7px; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.2s;
+}
+.btn-primary { background: var(--gold); color: white; }
+.btn-primary:hover { background: var(--brown); }
+.btn-danger { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
+.btn-danger:hover { background: var(--danger); color: white; }
+.btn-success { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
+.btn-success:hover { background: var(--success); color: white; }
+.btn-outline { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-outline:hover { color: var(--text); border-color: var(--text); }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem 1.25rem;
+  font-size: 0.875rem; font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 9999; display: flex; align-items: center; gap: 0.75rem;
+  transform: translateY(5rem); opacity: 0; transition: all 0.3s ease;
+  max-width: 350px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { border-left: 4px solid var(--success); }
+.toast.error { border-left: 4px solid var(--danger); }
+
+/* Progress bar */
+.progress-bar {
+  width: 100%; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 0.75rem;
+}
+.progress-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s; width: 0%; }
+
+/* URL input helper */
+.url-input-group { display: flex; gap: 0.5rem; }
+.url-input-group input { flex: 1; padding: 0.75rem 1rem; background: #0f172a; border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.875rem; }
+.url-input-group input:focus { outline: none; border-color: var(--gold); }
+
+@media (max-width: 768px) {
+  .sidebar { width: 100%; height: auto; position: relative; }
+  .main-content { margin-left: 0; }
+  .layout { flex-direction: column; }
+  .images-grid { grid-template-columns: 1fr; }
+  table { font-size: 0.8rem; }
+  th, td { padding: 0.75rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <h1>🏨 Cedar Inn</h1>
+    <p>Admin Panel · Secure Login</p>
+    <div class="form-group">
+      <label>Worker URL</label>
+      <input type="text" id="workerUrl" placeholder="https://your-worker.workers.dev" value="">
+    </div>
+    <div class="form-group">
+      <label>Admin Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-gold" id="loginBtn" onclick="doLogin()">
+      <i class="fas fa-lock mr-2"></i> Sign In
+    </button>
+    <div id="loginError" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>Cedar Inn</h2>
+        <p>Admin Dashboard</p>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </div>
+        <div class="nav-item" onclick="showSection('images')" id="nav-images">
+          <i class="fas fa-images"></i> Manage Images
+        </div>
+        <div class="nav-item" onclick="showSection('bookings')" id="nav-bookings">
+          <i class="fas fa-calendar-check"></i> Bookings
+          <span id="pendingBadge" class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full hidden"></span>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- DASHBOARD -->
+      <div id="section-dashboard">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Welcome to Cedar Inn Admin Panel</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Total Images</div>
+            <div class="value" id="stat-total-images">—</div>
+            <div class="sub">across all sections</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Real Images</div>
+            <div class="value" id="stat-real-images" style="color: var(--success)">—</div>
+            <div class="sub">uploaded to storage</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Mock Images</div>
+            <div class="value" id="stat-mock-images" style="color: var(--warning)">—</div>
+            <div class="sub">using fallback URLs</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Total Bookings</div>
+            <div class="value" id="stat-total-bookings">—</div>
+            <div class="sub">all time</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Pending</div>
+            <div class="value" id="stat-pending" style="color: var(--warning)">—</div>
+            <div class="sub">awaiting confirmation</div>
+          </div>
+        </div>
+        <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; max-width: 600px;">
+          <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--gold);">
+            <i class="fas fa-info-circle mr-2"></i>Quick Guide
+          </h3>
+          <ul style="color: var(--muted); font-size: 0.875rem; line-height: 2;">
+            <li>📸 <strong style="color:var(--text)">Manage Images</strong> — Upload real hotel photos to replace mock images</li>
+            <li>📅 <strong style="color:var(--text)">Bookings</strong> — View all booking requests from the website</li>
+            <li>🔄 Images with <span style="color:var(--warning)">MOCK</span> badge use placeholder photos</li>
+            <li>✅ Images with <span style="color:var(--success)">REAL</span> badge show your actual photos</li>
+            <li>🗑️ Click "Revert to Mock" to remove a real image and restore placeholder</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- IMAGES SECTION -->
+      <div id="section-images" style="display:none">
+        <div class="page-header">
+          <h1>Manage Images</h1>
+          <p>Upload real hotel photos. Unuploaded slots show mock/placeholder images on the website.</p>
+        </div>
+
+        <div class="section-tabs">
+          <button class="tab-btn active" onclick="filterImages('all', this)">All Images</button>
+          <button class="tab-btn" onclick="filterImages('hero', this)">Hero Slides</button>
+          <button class="tab-btn" onclick="filterImages('rooms', this)">Rooms</button>
+          <button class="tab-btn" onclick="filterImages('gallery', this)">Gallery</button>
+          <button class="tab-btn" onclick="filterImages('about', this)">About</button>
+          <button class="tab-btn" onclick="filterImages('location', this)">Location</button>
+        </div>
+
+        <div class="images-grid" id="imagesGrid">
+          <div style="color: var(--muted); padding: 2rem; grid-column: 1/-1; text-align: center;">
+            <i class="fas fa-spinner fa-spin" style="font-size:2rem; color: var(--gold);"></i>
+            <p style="margin-top: 1rem;">Loading images...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKINGS SECTION -->
+      <div id="section-bookings" style="display:none">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h1>Booking Requests</h1>
+            <p>All booking submissions from the Cedar Inn website</p>
+          </div>
+          <button class="btn-sm btn-primary" onclick="loadBookings()">
+            <i class="fas fa-sync-alt mr-1"></i> Refresh
+          </button>
+        </div>
+        <div class="table-wrapper" style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Guest</th>
+                <th>Contact</th>
+                <th>Dates</th>
+                <th>Room</th>
+                <th>Guests</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsBody">
+              <tr><td colspan="7" style="text-align:center; color: var(--muted); padding: 3rem;">
+                <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; color: var(--gold);"></i>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2>Upload Image</h2>
+    <p id="uploadModalLabel">Replace the placeholder with your real hotel photo</p>
+
+    <!-- File Upload -->
+    <div class="upload-zone" id="uploadZone" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <strong>Click to upload</strong> or drag & drop<br>
+      <span style="font-size:0.75rem;">JPG, PNG, WebP — max 5MB</span>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+
+    <div id="uploadPreview" style="display:none; margin-top:1rem;">
+      <img id="previewImg" style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; border:1px solid var(--border);">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <p id="uploadStatus" style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;"></p>
+    </div>
+
+    <div style="margin-top: 1.25rem;">
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem;">— or paste an image URL directly —</p>
+      <div class="url-input-group">
+        <input type="text" id="directUrl" placeholder="https://example.com/image.jpg">
+        <button class="btn-sm btn-primary" onclick="saveDirectUrl()">
+          <i class="fas fa-link"></i> Use URL
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-sm btn-primary" id="uploadBtn" onclick="uploadFile()" style="display:none">
+        <i class="fas fa-upload mr-1"></i> Upload & Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i id="toastIcon" class="fas fa-check-circle"></i>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+// ================================================================
+// STATE
+// ================================================================
+let WORKER_URL = '';
+let AUTH_TOKEN = '';
+let allImages = [];
+let currentSlotKey = '';
+let selectedFile = null;
+
+// ================================================================
+// LOGIN
+// ================================================================
+async function doLogin() {
+  const workerUrl = document.getElementById('workerUrl').value.trim().replace(/\/$/, '');
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+
+  if (!workerUrl) { errEl.textContent = 'Please enter your Cloudflare Worker URL'; return; }
+  if (!password) { errEl.textContent = 'Please enter your admin password'; return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Signing in...';
+  errEl.textContent = '';
+
+  try {
+    const res = await fetch(`${workerUrl}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      errEl.textContent = data.error || 'Login failed. Check your password.';
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-lock mr-2"></i> Sign In';
+      return;
+    }
+
+    WORKER_URL = workerUrl;
+    AUTH_TOKEN = data.token;
+    localStorage.setItem('cedar_worker_url', workerUrl);
+    localStorage.setItem('cedar_token', data.token);
+
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+
+  } catch (e) {
+    errEl.textContent = 'Cannot reach Worker. Check the URL and try again.';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-lock mr-2"></i> Sign In';
+  }
+}
+
+function logout() {
+  AUTH_TOKEN = '';
+  WORKER_URL = '';
+  localStorage.removeItem('cedar_token');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+// Auto-restore session
+window.addEventListener('DOMContentLoaded', () => {
+  const savedUrl = localStorage.getItem('cedar_worker_url');
+  const savedToken = localStorage.getItem('cedar_token');
+  if (savedUrl) document.getElementById('workerUrl').value = savedUrl;
+  if (savedUrl && savedToken) {
+    WORKER_URL = savedUrl;
+    AUTH_TOKEN = savedToken;
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  }
+});
+
+// ================================================================
+// INIT
+// ================================================================
+async function initApp() {
+  await Promise.all([loadImages(), loadBookings()]);
+  updateDashboardStats();
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+function showSection(name) {
+  ['dashboard','images','bookings'].forEach(s => {
+    document.getElementById(`section-${s}`).style.display = s === name ? 'block' : 'none';
+    document.getElementById(`nav-${s}`).classList.toggle('active', s === name);
+  });
+}
+
+// ================================================================
+// IMAGES
+// ================================================================
+async function loadImages() {
+  try {
+    const res = await authFetch('/api/admin/images');
+    allImages = await res.json();
+    renderImages('all');
+  } catch (e) {
+    showToast('Failed to load images', 'error');
+  }
+}
+
+function renderImages(filter) {
+  const grid = document.getElementById('imagesGrid');
+  const filtered = filter === 'all' ? allImages : allImages.filter(img => img.section === filter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="color:var(--muted);padding:3rem;grid-column:1/-1;text-align:center;">No images in this section.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(img => {
+    const hasReal = !!img.url;
+    const displayUrl = img.url || img.fallback_url;
+    return `
+    <div class="image-card" id="card-${img.slot_key}">
+      <div class="image-preview">
+        <img src="${displayUrl}" alt="${img.label}" onerror="this.src='https://via.placeholder.com/400x200?text=Image+Error'">
+        <span class="image-badge ${hasReal ? 'badge-real' : 'badge-mock'}">${hasReal ? '✓ REAL' : '⚠ MOCK'}</span>
+      </div>
+      <div class="image-card-body">
+        <h3>${img.label}</h3>
+        <p>${img.slot_key}</p>
+        <div class="image-actions">
+          <button class="btn-sm btn-primary" onclick="openUploadModal('${img.slot_key}', '${img.label.replace(/'/g,'')}')">
+            <i class="fas fa-upload mr-1"></i>${hasReal ? 'Replace' : 'Upload'}
+          </button>
+          ${hasReal ? `<button class="btn-sm btn-danger" onclick="revertToMock('${img.slot_key}')">
+            <i class="fas fa-undo mr-1"></i>Revert
+          </button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterImages(section, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderImages(section);
+}
+
+// ================================================================
+// UPLOAD MODAL
+// ================================================================
+function openUploadModal(slotKey, label) {
+  currentSlotKey = slotKey;
+  selectedFile = null;
+  document.getElementById('uploadModalLabel').textContent = `Slot: ${label}`;
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('uploadBtn').style.display = 'none';
+  document.getElementById('directUrl').value = '';
+  document.getElementById('fileInput').value = '';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('uploadStatus').textContent = '';
+  document.getElementById('uploadModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('uploadModal').style.display = 'none';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.add('dragover');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) previewFile(file);
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) previewFile(file);
+}
+
+function previewFile(file) {
+  if (!file.type.startsWith('image/')) {
+    showToast('Please select an image file', 'error');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('File too large. Max 5MB', 'error');
+    return;
+  }
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('previewImg').src = e.target.result;
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('uploadBtn').style.display = 'inline-flex';
+    document.getElementById('uploadStatus').textContent = `Ready: ${file.name} (${(file.size/1024).toFixed(0)}KB)`;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function uploadFile() {
+  if (!selectedFile) return;
+
+  const btn = document.getElementById('uploadBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Uploading...';
+  document.getElementById('uploadStatus').textContent = 'Getting upload URL...';
+  setProgress(10);
+
+  try {
+    // Step 1: get upload info from worker
+    const urlRes = await authFetch('/api/admin/upload-url', {
+      method: 'POST',
+      body: JSON.stringify({ filename: selectedFile.name, content_type: selectedFile.type }),
+    });
+    const { public_url } = await urlRes.json();
+    setProgress(30);
+
+    // Step 2: upload directly to Supabase Storage
+    document.getElementById('uploadStatus').textContent = 'Uploading image...';
+    // We can't upload via CORS to Supabase directly from admin panel without service key
+    // Instead we'll convert to base64 and send via worker
+    const base64 = await fileToBase64(selectedFile);
+    setProgress(60);
+
+    document.getElementById('uploadStatus').textContent = 'Saving to storage...';
+
+    // Upload via worker as base64
+    const uploadRes = await authFetch('/api/admin/upload-image', {
+      method: 'POST',
+      body: JSON.stringify({
+        slot_key: currentSlotKey,
+        filename: selectedFile.name,
+        content_type: selectedFile.type,
+        data: base64,
+      }),
+    });
+
+    if (!uploadRes.ok) {
+      // Fallback: save public_url anyway if storage returns URL
+      const errData = await uploadRes.json();
+      throw new Error(errData.error || 'Upload failed');
+    }
+
+    const result = await uploadRes.json();
+    setProgress(100);
+
+    // Update local state
+    const img = allImages.find(i => i.slot_key === currentSlotKey);
+    if (img) img.url = result.url || public_url;
+
+    document.getElementById('uploadStatus').textContent = '✓ Uploaded successfully!';
+    showToast('Image uploaded successfully!', 'success');
+    renderImages(getCurrentFilter());
+    updateDashboardStats();
+
+    setTimeout(closeModal, 1200);
+
+  } catch (e) {
+    document.getElementById('uploadStatus').textContent = 'Error: ' + e.message;
+    showToast('Upload failed: ' + e.message, 'error');
+    setProgress(0);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-upload mr-1"></i> Upload & Save';
+  }
+}
+
+async function saveDirectUrl() {
+  const url = document.getElementById('directUrl').value.trim();
+  if (!url || !url.startsWith('http')) {
+    showToast('Please enter a valid URL', 'error');
+    return;
+  }
+
+  try {
+    const res = await authFetch('/api/admin/images', {
+      method: 'PUT',
+      body: JSON.stringify({ slot_key: currentSlotKey, url }),
+    });
+
+    if (!res.ok) throw new Error('Update failed');
+
+    const img = allImages.find(i => i.slot_key === currentSlotKey);
+    if (img) img.url = url;
+
+    showToast('Image URL saved!', 'success');
+    renderImages(getCurrentFilter());
+    updateDashboardStats();
+    closeModal();
+  } catch (e) {
+    showToast('Failed to save URL', 'error');
+  }
+}
+
+async function revertToMock(slotKey) {
+  if (!confirm('Remove the real image and revert to placeholder?')) return;
+
+  try {
+    const res = await authFetch('/api/admin/images/delete', {
+      method: 'POST',
+      body: JSON.stringify({ slot_key: slotKey }),
+    });
+
+    if (!res.ok) throw new Error('Failed');
+
+    const img = allImages.find(i => i.slot_key === slotKey);
+    if (img) img.url = null;
+
+    showToast('Reverted to mock image', 'success');
+    renderImages(getCurrentFilter());
+    updateDashboardStats();
+  } catch (e) {
+    showToast('Failed to revert', 'error');
+  }
+}
+
+// ================================================================
+// BOOKINGS
+// ================================================================
+async function loadBookings() {
+  try {
+    const res = await authFetch('/api/admin/bookings');
+    const bookings = await res.json();
+    renderBookings(bookings);
+
+    const pending = bookings.filter(b => b.status === 'pending').length;
+    const badge = document.getElementById('pendingBadge');
+    if (pending > 0) {
+      badge.textContent = pending;
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+
+    // Update stats
+    document.getElementById('stat-total-bookings').textContent = bookings.length;
+    document.getElementById('stat-pending').textContent = pending;
+  } catch (e) {
+    document.getElementById('bookingsBody').innerHTML = `
+      <tr><td colspan="7" style="text-align:center;color:var(--danger);padding:2rem;">Failed to load bookings</td></tr>`;
+  }
+}
+
+function renderBookings(bookings) {
+  const tbody = document.getElementById('bookingsBody');
+  if (!bookings || bookings.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:3rem;">No bookings yet.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = bookings.map(b => {
+    const nights = Math.ceil((new Date(b.check_out) - new Date(b.check_in)) / 86400000);
+    const statusClass = { pending: 'status-pending', confirmed: 'status-confirmed', cancelled: 'status-cancelled' }[b.status] || 'status-pending';
+    const submittedAt = new Date(b.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+    return `
+    <tr>
+      <td>
+        <strong>${b.name}</strong>
+        <div style="color:var(--muted);font-size:0.75rem;margin-top:0.15rem;">${submittedAt}</div>
+        ${b.special_requests ? `<div style="color:var(--muted);font-size:0.75rem;margin-top:0.15rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${b.special_requests}">📝 ${b.special_requests}</div>` : ''}
+      </td>
+      <td>
+        <div>${b.mobile}</div>
+        <div style="color:var(--muted);font-size:0.75rem;">${b.email}</div>
+      </td>
+      <td>
+        <div>${fmtDate(b.check_in)}</div>
+        <div style="color:var(--muted);font-size:0.75rem;">to ${fmtDate(b.check_out)}</div>
+        <div style="color:var(--gold);font-size:0.75rem;">${nights} night${nights !== 1 ? 's' : ''}</div>
+      </td>
+      <td>${b.room_type || 'Any'}</td>
+      <td>${b.adults || 2}A / ${b.children || 0}C</td>
+      <td><span class="status-badge ${statusClass}">${b.status}</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+          ${b.status !== 'confirmed' ? `<button class="btn-sm btn-success" onclick="updateStatus('${b.id}','confirmed')">✓ Confirm</button>` : ''}
+          ${b.status !== 'cancelled' ? `<button class="btn-sm btn-danger" onclick="updateStatus('${b.id}','cancelled')">✗ Cancel</button>` : ''}
+          ${b.status !== 'pending' ? `<button class="btn-sm btn-outline" onclick="updateStatus('${b.id}','pending')">↩ Pending</button>` : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateStatus(id, status) {
+  try {
+    const res = await authFetch('/api/admin/bookings/status', {
+      method: 'POST',
+      body: JSON.stringify({ id, status }),
+    });
+    if (!res.ok) throw new Error('Failed');
+    showToast(`Booking marked as ${status}`, 'success');
+    loadBookings();
+  } catch (e) {
+    showToast('Update failed', 'error');
+  }
+}
+
+// ================================================================
+// HELPERS
+// ================================================================
+function authFetch(path, opts = {}) {
+  return fetch(`${WORKER_URL}${path}`, {
+    ...opts,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': AUTH_TOKEN,
+      ...(opts.headers || {}),
+    },
+  });
+}
+
+function setProgress(pct) {
+  document.getElementById('progressFill').style.width = `${pct}%`;
+  document.getElementById('uploadPreview').style.display = 'block';
+}
+
+function getCurrentFilter() {
+  const activeTab = document.querySelector('.tab-btn.active');
+  return activeTab ? activeTab.textContent.trim().toLowerCase().replace(' images','').replace('hero slides','hero') : 'all';
+}
+
+function updateDashboardStats() {
+  const total = allImages.length;
+  const real = allImages.filter(i => i.url).length;
+  document.getElementById('stat-total-images').textContent = total;
+  document.getElementById('stat-real-images').textContent = real;
+  document.getElementById('stat-mock-images').textContent = total - real;
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(',')[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const icon = document.getElementById('toastIcon');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`;
+  icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
