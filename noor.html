@@ -1550,83 +1550,56 @@
          NOOR AI ASSISTANT — CEDAR INN CONCIERGE
     ══════════════════════════════════════════════════════════════════ -->
 
-    <!-- Noor Trigger Button (replaces WhatsApp position) -->
+    <!-- Noor Trigger Button -->
     <button id="noorTrigger" onclick="toggleNoor()" aria-label="Chat with Noor AI"
-        class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 group"
-        style="filter: drop-shadow(0 8px 32px rgba(184,149,106,0.55));">
+        class="fixed bottom-5 right-5 md:bottom-7 md:right-7 z-50"
+        style="border:none;background:none;padding:0;cursor:pointer;">
         <div style="
-            width: 64px; height: 64px;
-            background: linear-gradient(135deg, #B8956A 0%, #7B5B3A 60%, #5C4033 100%);
+            width: 58px; height: 58px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
             position: relative;
-            box-shadow: 0 4px 24px rgba(184,149,106,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-        " onmouseenter="this.style.transform='scale(1.12)'" onmouseleave="this.style.transform='scale(1)'">
-            <!-- Animated pulse ring -->
-            <span style="
-                position:absolute; inset:-4px; border-radius:50%;
-                border: 2px solid rgba(184,149,106,0.5);
-                animation: noorPulse 2.5s ease-in-out infinite;
-            "></span>
-            <!-- Girl / AI avatar SVG -->
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Hair back -->
-                <ellipse cx="18" cy="13" rx="10" ry="10.5" fill="#3E2723"/>
-                <!-- Face -->
-                <ellipse cx="18" cy="15" rx="7.5" ry="8" fill="#F5CBA7"/>
-                <!-- Hair front / bangs -->
-                <path d="M10.5 11 Q12 7 18 7 Q24 7 25.5 11 Q23 9 18 9.5 Q13 9 10.5 11Z" fill="#3E2723"/>
-                <!-- Hair sides flowing down -->
-                <path d="M10.5 13 Q8 18 9 24 Q11 20 11 17Z" fill="#3E2723"/>
-                <path d="M25.5 13 Q28 18 27 24 Q25 20 25 17Z" fill="#3E2723"/>
-                <!-- Eyes -->
-                <ellipse cx="15" cy="15.5" rx="1.3" ry="1.4" fill="#3E2723"/>
-                <ellipse cx="21" cy="15.5" rx="1.3" ry="1.4" fill="#3E2723"/>
-                <!-- Eye shine -->
-                <circle cx="15.5" cy="15" r="0.4" fill="white"/>
-                <circle cx="21.5" cy="15" r="0.4" fill="white"/>
-                <!-- Nose -->
-                <path d="M17.5 18 Q18 19 18.5 18" stroke="#C8956A" stroke-width="0.7" fill="none" stroke-linecap="round"/>
-                <!-- Smile -->
-                <path d="M15.5 20.5 Q18 22.5 20.5 20.5" stroke="#C0704A" stroke-width="0.9" fill="none" stroke-linecap="round"/>
-                <!-- Headscarf / dupatta hint -->
-                <path d="M8 14 Q9 8 18 7 Q27 8 28 14 Q26 11 18 10.5 Q10 11 8 14Z" fill="#B8956A" opacity="0.7"/>
-                <!-- Body / collar -->
-                <path d="M11 27 Q13 23 18 22 Q23 23 25 27 Q22 25 18 25 Q14 25 11 27Z" fill="#B8956A"/>
-                <!-- Shoulders -->
-                <ellipse cx="18" cy="29" rx="9" ry="5" fill="#7B5B3A"/>
-                <!-- Star sparkle (AI touch) -->
-                <path d="M29 8 L29.5 9.5 L31 10 L29.5 10.5 L29 12 L28.5 10.5 L27 10 L28.5 9.5Z" fill="#FFD700" opacity="0.9"/>
-                <path d="M6 20 L6.3 21 L7.3 21.3 L6.3 21.6 L6 22.6 L5.7 21.6 L4.7 21.3 L5.7 21Z" fill="#FFD700" opacity="0.7"/>
-            </svg>
+            box-shadow: 0 4px 20px rgba(42,100,80,0.5), 0 2px 10px rgba(0,0,0,0.25);
+        " onmouseenter="this.style.transform='scale(1.1)';this.style.boxShadow='0 8px 28px rgba(42,100,80,0.65)'" onmouseleave="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(42,100,80,0.5), 0 2px 10px rgba(0,0,0,0.25)'">
+            <!-- Pulse ring -->
+            <span style="position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(184,149,106,0.5);animation:noorPulse 2.8s ease-in-out infinite;z-index:0;"></span>
+            <!-- Real hijabi/niqabi photo -->
+            <img
+                src="https://themaydan.com/wp-content/uploads/2020/12/Piela-image.jpg"
+                alt="Noor - Cedar Inn AI Concierge"
+                style="width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid #B8956A;display:block;position:relative;z-index:1;"
+                onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#B8956A,#5C4033)';this.parentElement.innerHTML+='<svg style=\'position:relative;z-index:1\' width=\'30\' height=\'30\' viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z\'/></svg>';"
+            />
+            <!-- Online dot -->
+            <span style="position:absolute;bottom:2px;right:2px;z-index:2;width:13px;height:13px;background:#22c55e;border-radius:50%;border:2.5px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2);"></span>
         </div>
         <!-- Tooltip -->
         <span style="
-            position:absolute; right:74px; top:50%; transform:translateY(-50%);
-            background:#3E2723; color:white; font-size:0.7rem; white-space:nowrap;
-            padding:5px 10px; border-radius:8px; font-family:'Montserrat',sans-serif;
+            position:absolute; right:68px; top:50%; transform:translateY(-50%);
+            background:#3E2723; color:white; font-size:0.68rem; white-space:nowrap;
+            padding:5px 11px; border-radius:8px; font-family:'Montserrat',sans-serif;
             opacity:0; transition:opacity 0.3s; pointer-events:none;
-            box-shadow:0 4px 12px rgba(0,0,0,0.3);
+            box-shadow:0 4px 12px rgba(0,0,0,0.3); letter-spacing:0.02em;
         " id="noorTooltip">✨ Chat with Noor</span>
     </button>
 
     <!-- Noor Chat Window -->
     <div id="noorWindow" style="
         position: fixed;
-        bottom: 90px; right: 20px;
-        width: min(400px, calc(100vw - 24px));
-        height: min(620px, calc(100vh - 120px));
+        bottom: 88px; right: 16px;
+        width: min(390px, calc(100vw - 24px));
+        height: min(600px, calc(100dvh - 110px));
         background: white;
         border-radius: 20px;
         box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(184,149,106,0.2);
         display: flex; flex-direction: column;
         overflow: hidden;
         z-index: 9999;
-        transform: scale(0.85) translateY(20px);
+        transform: translateY(24px) scale(0.95);
         opacity: 0;
         pointer-events: none;
-        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.34,1.3,0.64,1);
+        will-change: opacity, transform;
     ">
         <!-- Header -->
         <div style="
@@ -1638,28 +1611,14 @@
             <!-- Decorative pattern -->
             <div style="position:absolute;inset:0;opacity:0.08;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22><path d=%22M20 0 L40 20 L20 40 L0 20Z%22 fill=%22white%22/></svg>') repeat;"></div>
             <div style="display:flex;align-items:center;gap:12px;position:relative;">
-                <!-- Avatar in header -->
-                <div style="
-                    width:48px;height:48px;border-radius:50%;
-                    background:rgba(255,255,255,0.15);
-                    border:2px solid rgba(255,255,255,0.4);
-                    display:flex;align-items:center;justify-content:center;
-                    flex-shrink:0;
-                ">
-                    <svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="18" cy="13" rx="10" ry="10.5" fill="#3E2723"/>
-                        <ellipse cx="18" cy="15" rx="7.5" ry="8" fill="#F5CBA7"/>
-                        <path d="M10.5 11 Q12 7 18 7 Q24 7 25.5 11 Q23 9 18 9.5 Q13 9 10.5 11Z" fill="#3E2723"/>
-                        <path d="M10.5 13 Q8 18 9 24 Q11 20 11 17Z" fill="#3E2723"/>
-                        <path d="M25.5 13 Q28 18 27 24 Q25 20 25 17Z" fill="#3E2723"/>
-                        <ellipse cx="15" cy="15.5" rx="1.3" ry="1.4" fill="#3E2723"/>
-                        <ellipse cx="21" cy="15.5" rx="1.3" ry="1.4" fill="#3E2723"/>
-                        <circle cx="15.5" cy="15" r="0.4" fill="white"/>
-                        <circle cx="21.5" cy="15" r="0.4" fill="white"/>
-                        <path d="M15.5 20.5 Q18 22.5 20.5 20.5" stroke="#C0704A" stroke-width="0.9" fill="none" stroke-linecap="round"/>
-                        <path d="M8 14 Q9 8 18 7 Q27 8 28 14 Q26 11 18 10.5 Q10 11 8 14Z" fill="#B8956A" opacity="0.7"/>
-                        <ellipse cx="18" cy="29" rx="9" ry="5" fill="#7B5B3A"/>
-                    </svg>
+                <!-- Avatar in header — real photo -->
+                <div style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);flex-shrink:0;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                    <img
+                        src="https://themaydan.com/wp-content/uploads/2020/12/Piela-image.jpg"
+                        alt="Noor"
+                        style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;"
+                        onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#B8956A,#5C4033)';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';"
+                    />
                 </div>
                 <div style="flex:1;">
                     <div style="color:white;font-weight:700;font-size:1rem;font-family:'Cormorant Garamond',serif;letter-spacing:0.03em;">Noor</div>
@@ -1908,6 +1867,30 @@
         body.dark .noor-quick-btn { background:#2d2d2d;color:#D4C4A8;border-color:#5C4033; }
         body.dark #noorWindow > div:last-child { background:#1a1a1a;border-color:#3E2723; }
         body.dark #noorQuickReplies { background:#1a1a1a;border-color:#3E2723; }
+
+        /* Mobile: Noor fills screen smartly */
+        @media (max-width: 480px) {
+            #noorWindow {
+                bottom: 80px !important;
+                right: 8px !important;
+                left: 8px !important;
+                width: auto !important;
+                max-width: none !important;
+                height: calc(100dvh - 100px) !important;
+                max-height: calc(100dvh - 100px) !important;
+                border-radius: 16px !important;
+            }
+            #noorTrigger {
+                bottom: 14px !important;
+                right: 14px !important;
+            }
+        }
+        @media (max-width: 380px) {
+            #noorWindow {
+                bottom: 76px !important;
+                height: calc(100dvh - 94px) !important;
+            }
+        }
     </style>
 
     <!-- Scripts -->
@@ -2229,16 +2212,16 @@
             const win = document.getElementById('noorWindow');
             if (noorOpen) {
                 win.style.opacity = '1';
-                win.style.transform = 'scale(1) translateY(0)';
+                win.style.transform = 'translateY(0) scale(1)';
                 win.style.pointerEvents = 'all';
-                setTimeout(() => document.getElementById('noorInput')?.focus(), 300);
+                setTimeout(() => document.getElementById('noorInput')?.focus(), 350);
                 if (!noorGreeted) {
                     noorGreeted = true;
-                    setTimeout(() => noorShowGreeting(), 400);
+                    setTimeout(() => noorShowGreeting(), 450);
                 }
             } else {
                 win.style.opacity = '0';
-                win.style.transform = 'scale(0.85) translateY(20px)';
+                win.style.transform = 'translateY(24px) scale(0.95)';
                 win.style.pointerEvents = 'none';
             }
         }
@@ -2249,6 +2232,14 @@
             ];
             noorAddMessage('ai', greetings[0]);
             renderQuickReplies(QUICK_REPLIES_DEFAULT);
+        }
+
+        function noorScrollToBottom() {
+            const msgs = document.getElementById('noorMessages');
+            if (!msgs) return;
+            requestAnimationFrame(() => {
+                msgs.scrollTo({ top: msgs.scrollHeight, behavior: 'smooth' });
+            });
         }
 
         function noorAddMessage(role, html, timestamp = true) {
@@ -2272,7 +2263,7 @@
             }
 
             msgs.appendChild(wrapper);
-            msgs.scrollTop = msgs.scrollHeight;
+            noorScrollToBottom();
             return wrapper;
         }
 
@@ -2285,7 +2276,7 @@
             bubble.innerHTML = '<div class="noor-typing"><span></span><span></span><span></span></div>';
             wrapper.appendChild(bubble);
             msgs.appendChild(wrapper);
-            msgs.scrollTop = msgs.scrollHeight;
+            noorScrollToBottom();
             noorTypingEl = wrapper;
             return wrapper;
         }
@@ -2294,6 +2285,7 @@
             if (noorTypingEl) {
                 noorTypingEl.remove();
                 noorTypingEl = null;
+                noorScrollToBottom();
             }
         }
 
