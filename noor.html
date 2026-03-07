@@ -2423,9 +2423,29 @@
             }
 
             // ── Detect booking intent BEFORE sending to AI ──
-            const lc = text.toLowerCase();
-            const bookingIntent = lc.includes('book') || lc.includes('reserv') || lc.includes('want to stay') || lc.includes('want a room') || lc.includes('i want to book') || lc.includes('make a booking');
-            if (bookingIntent && noorBookingState === null) {
+            const lc = text.toLowerCase().trim();
+
+            // Negative / rejection patterns — these must be checked FIRST
+            const isNegative =
+                lc.match(/\b(don'?t|do not|not|no|cancel|stop|never|won'?t|don't want|i'm not|im not|nope|nah)\b.*\b(book|reserv|stay|room)\b/) ||
+                lc.match(/\b(book|reserv|stay|room)\b.*\b(don'?t|not|no|cancel|stop|never|later|maybe|just|only)\b/) ||
+                lc.match(/^(no|nope|nah|not now|maybe later|just asking|just curious|just browsing|forget it|nevermind|never mind|i was just|only asking)/) ||
+                lc.match(/\b(i don'?t|i do not|i'm not|im not)\b/);
+
+            // Positive booking intent — explicit phrases only
+            const isPositiveBooking =
+                !isNegative && (
+                    lc.match(/^(book|i want to book|i'?d like to book|i want a room|book a room|make a (booking|reservation)|i want to (stay|reserve)|reserve a room|i want to check in)/) ||
+                    lc.match(/\b(yes|yeah|yep|sure|ok|okay|please|let'?s|go ahead|proceed)\b.*\b(book|reserv|room|stay)\b/) ||
+                    lc.match(/\b(book|reserv)\b.*\b(now|today|please|asap|room|stay|suite)\b/) ||
+                    lc === 'book' ||
+                    lc === 'book now' ||
+                    lc === 'i want to book' ||
+                    lc === 'book a room' ||
+                    lc === 'make a reservation'
+                );
+
+            if (isPositiveBooking && noorBookingState === null) {
                 input.disabled = false;
                 btn.disabled = false;
                 startNoorBooking();
@@ -2461,8 +2481,10 @@
                 } else if (data.reply) {
                     // Strip any [SUBMIT_BOOKING:...] tags the AI may produce — never show these
                     let reply = data.reply.replace(/\[SUBMIT_BOOKING:[^\]]*\]/g, '').trim();
-                    // If AI reply contains booking intent, hand off to our state machine instead
-                    if (reply.toLowerCase().includes("what's your full name") || reply.toLowerCase().includes("what is your full name") || reply.toLowerCase().includes("may i know your name")) {
+                    // Only hand off to booking state machine if user clearly wants to book
+                    // (AI sometimes asks for name when user hasn't confirmed intent — don't intercept)
+                    const userWantsBooking = isPositiveBooking;
+                    if (userWantsBooking && (reply.toLowerCase().includes("what's your full name") || reply.toLowerCase().includes("what is your full name") || reply.toLowerCase().includes("may i know your name"))) {
                         input.disabled = false;
                         btn.disabled = false;
                         startNoorBooking();
@@ -2553,16 +2575,19 @@
 
         function renderContextualQuickReplies(lastMsg) {
             const lc = lastMsg.toLowerCase();
+            // Don't push booking quick replies if user expressed they don't want to book
+            const userRejectedBooking = lc.match(/\b(don'?t|do not|not|no|won'?t)\b.*\b(book|reserv|stay|room)\b/) || lc.match(/^(no|nope|nah|not now|maybe later|just asking|just curious)/);
+
             if (lc.includes('room') || lc.includes('price') || lc.includes('cost') || lc.includes('rate')) {
-                renderQuickReplies(['📅 Book now', '🛁 Room amenities', '🍽️ Dining', '📞 Call us']);
-            } else if (lc.includes('book') || lc.includes('reserv') || lc.includes('stay')) {
-                renderQuickReplies(['📋 Open booking form', '📞 Call +91 7006077277', '💰 Check prices', '📍 Location']);
+                renderQuickReplies(['📞 Call us', '🛁 Room amenities', '🍽️ Dining', '📍 Location']);
+            } else if (!userRejectedBooking && (lc.includes('book') || lc.includes('reserv') || lc.includes('stay'))) {
+                renderQuickReplies(['📋 Open booking form', '📞 Call +91 7006077277', '📍 Location', '🍽️ Dining']);
             } else if (lc.includes('location') || lc.includes('where') || lc.includes('address') || lc.includes('distance')) {
-                renderQuickReplies(['🗺️ Get directions', '🏔️ Nearby places', '✈️ From airport', '📅 Book a stay']);
+                renderQuickReplies(['🗺️ Get directions', '🏔️ Nearby places', '✈️ From airport', '📞 Call us']);
             } else if (lc.includes('food') || lc.includes('eat') || lc.includes('restaurant') || lc.includes('cuisine')) {
-                renderQuickReplies(['🍖 Wazwan menu', '☕ Kahwa tea', '📅 Book a stay', '📞 Contact us']);
+                renderQuickReplies(['🍖 Wazwan menu', '☕ Kahwa tea', '📞 Call us', '📍 Location']);
             } else if (lc.includes('gulmarg') || lc.includes('pahalgam') || lc.includes('dal') || lc.includes('tour')) {
-                renderQuickReplies(['🚕 Arrange taxi', '📅 Book hotel', '🗺️ Tour packages', '📞 Ask our team']);
+                renderQuickReplies(['🚕 Arrange taxi', '🗺️ Tour packages', '📞 Ask our team', '📍 Location']);
             } else {
                 renderQuickReplies(QUICK_REPLIES_DEFAULT);
             }
@@ -2571,13 +2596,10 @@
         // Local fallback when AI is offline - covers common questions
         function noorLocalFallback(text) {
             const lc = text.toLowerCase();
-            if (lc.includes('price') || lc.includes('cost') || lc.includes('rate') || lc.includes('room')) {
-                return `🏨 <strong>Cedar Inn Room Pricing:</strong><br><br>
-• <strong>Deluxe Room:</strong> ₹2,500–₹4,000/night<br>
-• <strong>Heritage Suite:</strong> ₹4,500–₹6,500/night<br>
-• <strong>Family Room:</strong> ₹5,000–₹7,500/night<br><br>
-Prices vary by season. Peak season (May–Aug & Dec–Jan) may be higher. All rooms include Free WiFi, hot water, heating & 24/7 room service. 🌟<br><br>
-To book, call us at <a href="tel:+917006077277">+91 7006077277</a>`;
+            if (lc.includes('price') || lc.includes('cost') || lc.includes('rate') || lc.includes('how much') || lc.includes('tariff') || lc.includes('budget')) {
+                return `🏨 For the best rates tailored to your dates, please contact our team directly — they'll find the perfect deal for you! 🌸<br><br>
+<a href="tel:+917006077277" class="noor-action-btn noor-btn-call"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>Call +91 7006077277</a>
+<a href="https://wa.me/917006077277" target="_blank" class="noor-action-btn noor-btn-wa"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp Us</a>`;
             }
             if (lc.includes('location') || lc.includes('address') || lc.includes('where')) {
                 return `📍 <strong>Cedar Inn Location:</strong><br><br>
