@@ -1570,7 +1570,7 @@
                                 </div>
                                 <div class="flex items-start gap-3">
                                     <div class="w-9 h-9 bg-[#B8956A] rounded-full flex-shrink-0 flex items-center justify-center"><i class="fas fa-envelope text-white text-sm"></i></div>
-                                    <div><h4 class="font-sans font-semibold text-sm">Email</h4><p class="font-sans text-sm opacity-75"><a href="/cdn-cgi/l/email-protection#f19294959083989f9fb1969c90989ddf929e9c" style="color:#B8956A;"><span class="__cf_email__" data-cfemail="c8abadaca9baa1a6a688afa5a9a1a4e6aba7a5">[email&#160;protected]</span></a></p></div>
+                                    <div><h4 class="font-sans font-semibold text-sm">Email</h4><p class="font-sans text-sm opacity-75"><a href="mailto:contact.cedarinn@gmail.com" style="color:#B8956A;">contact.cedarinn@gmail.com</a></p></div>
                                 </div>
                             </div>
                             <div class="rounded-xl p-5 bg-gradient-to-br from-cream-100 to-cream-200 dark:from-gray-800 dark:to-gray-900">
@@ -1695,7 +1695,7 @@
                             <div class="p-6 font-sans text-sm leading-relaxed" style="background: rgba(184,149,106,0.05);">
                                 <p class="mb-3">All photographs, videos, and multimedia content displayed on the Cedar Inn website and any associated platforms are the <strong>exclusive property of Cedar Inn</strong> and are protected under applicable copyright laws.</p>
                                 <p class="mb-3"><strong>No person, organisation, or entity is permitted to copy, reproduce, redistribute, publish, or use any photo or video content</strong> from Cedar Inn in any form — digital or print — without prior written permission from the Administration.</p>
-                                <p>To request permission for use of any media content, please contact us at <strong><a href="/cdn-cgi/l/email-protection#c5a6a0a1a4b7acabab85a2a8a4aca9eba6aaa8" style="color:#B8956A;"><span class="__cf_email__" data-cfemail="ea898f8e8b98838484aa8d878b8386c4898587">[email&#160;protected]</span></a></strong> or reach out to the hotel administration directly.</p>
+                                <p>To request permission for use of any media content, please contact us at <strong><a href="mailto:contact.cedarinn@gmail.com" style="color:#B8956A;">contact.cedarinn@gmail.com</a></strong> or reach out to the hotel administration directly.</p>
                             </div>
                         </div>
 
@@ -1739,7 +1739,7 @@
                         <li><i class="fas fa-phone mr-2"></i>+91 7006077277</li>
                         <li><i class="fas fa-phone mr-2"></i>+91 7006752424</li>
                         <li><i class="fas fa-phone mr-2"></i>+91 8715070489</li>
-                        <li><i class="fas fa-envelope mr-2"></i><a href="/cdn-cgi/l/email-protection#f596909194879c9b9bb59298949c99db969a98" class="hover:text-[#B8956A] transition"><span class="__cf_email__" data-cfemail="9cfff9f8fdeef5f2f2dcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></a></li>
+                        <li><i class="fas fa-envelope mr-2"></i><a href="mailto:contact.cedarinn@gmail.com" class="hover:text-[#B8956A] transition">contact.cedarinn@gmail.com</a></li>
                     </ul>
                 </div>
                 <div>
@@ -2066,20 +2066,25 @@
         .noor-action-btn {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 8px 14px;
-            border-radius: 22px;
-            font-size: 0.78rem;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
-            text-decoration: none;
+            text-decoration: none !important;
             cursor: pointer;
             border: none;
-            margin: 3px 3px 3px 0;
+            margin: 3px 4px 3px 0;
             transition: all 0.2s ease;
             box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             letter-spacing: 0.01em;
             vertical-align: middle;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .noor-action-btn svg {
+            flex-shrink: 0;
         }
         .noor-btn-call {
             background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -2139,7 +2144,7 @@
     </style>
 
     <!-- Scripts -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // ============================================================
         // CEDAR INN WEBSITE — JAVASCRIPT
         // Worker URL: cedarinn.khanullah1029.workers.dev
@@ -2814,8 +2819,20 @@
 
         // Format AI reply — convert markdown to HTML with beautiful action buttons
         function noorFormatReply(text) {
-            // 1. Bold, italic, line breaks, phone numbers, prices
+            // 0. Sanitize leaked HTML button markup from AI responses
+            // The AI sometimes echoes button template fragments — strip them cleanly
             let html = text
+                // Strip leaked class attributes: ..." class="noor-xyz">some text
+                .replace(/"?\s*class="noor-[^"]*"[^<]*>/g, '')
+                // Strip stray quotes and pipe separators from malformed markdown links
+                .replace(/"\s*\|\s*/g, ' ')
+                // Strip any remaining noor-action-btn related leakage
+                .replace(/noor-action-btn\s+noor-btn-[a-z]+/g, '')
+                // Strip bare closing > that followed stripped class= attributes
+                .replace(/\s{2,}>/g, '');
+
+            // 1. Bold, italic, line breaks, phone numbers, prices
+            html = html
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.+?)\*/g, '<em>$1</em>')
                 .replace(/\n\n/g, '<br><br>')
@@ -2824,40 +2841,47 @@
 
             // 2. Convert markdown links [text](url) to beautiful action buttons
             html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, url) => {
-                const cleanLabel = label.replace(/^[📞💬🗺️📧✉️📅✨🏨🚗📋]+\s*/u, '').trim();
+                // Clean label: strip emojis, quotes, pipe separators, HTML remnants
+                const cleanLabel = label
+                    .replace(/^[📞💬🗺️📧✉️📅✨🏨🚗📋]+\s*/u, '')
+                    .replace(/"[^"]*$/, '')   // remove trailing " ... (leaked HTML)
+                    .replace(/\s*\|.*$/, '')  // remove | ... tail
+                    .trim();
+                // Clean URL: strip anything after the first " or space (leaked HTML attrs)
+                const cleanUrl = url.replace(/["\s].*$/, '').trim();
 
-                if (url.startsWith('tel:')) {
-                    return `<a href="${url}" class="noor-action-btn noor-btn-call">
+                if (cleanUrl.startsWith('tel:')) {
+                    return `<a href="${cleanUrl}" class="noor-action-btn noor-btn-call">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
                         ${cleanLabel || 'Call Now'}
                     </a>`;
                 }
-                if (url.includes('wa.me') || url.includes('whatsapp')) {
-                    return `<a href="${url}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-wa">
+                if (cleanUrl.includes('wa.me') || cleanUrl.includes('whatsapp')) {
+                    return `<a href="${cleanUrl}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-wa">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                         ${cleanLabel || 'WhatsApp'}
                     </a>`;
                 }
-                if (url.includes('goo.gl/maps') || url.includes('maps.google') || url.includes('maps.app')) {
-                    return `<a href="${url}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-maps">
+                if (cleanUrl.includes('goo.gl/maps') || cleanUrl.includes('maps.google') || cleanUrl.includes('maps.app')) {
+                    return `<a href="${cleanUrl}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-maps">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         ${cleanLabel || 'Get Directions'}
                     </a>`;
                 }
-                if (url.startsWith('mailto:')) {
-                    return `<a href="${url}" class="noor-action-btn noor-btn-email">
+                if (cleanUrl.startsWith('mailto:')) {
+                    return `<a href="${cleanUrl}" class="noor-action-btn noor-btn-email">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                         ${cleanLabel || 'Email Us'}
                     </a>`;
                 }
-                if (url === 'action:book') {
+                if (cleanUrl === 'action:book') {
                     return `<button onclick="openNoorBooking()" class="noor-action-btn noor-btn-book">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
                         ${cleanLabel || 'Book Your Stay'}
                     </button>`;
                 }
                 // Generic link
-                return `<a href="${url}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-book">${cleanLabel || label}</a>`;
+                return `<a href="${cleanUrl}" target="_blank" rel="noopener" class="noor-action-btn noor-btn-book">${cleanLabel || label}</a>`;
             });
 
             // 3. Format inline phone numbers as clickable call links
@@ -2914,7 +2938,7 @@ Call us for pickup: <a href="tel:+917006077277">+91 7006077277</a>`;
                 return `📅 <strong>Ready to book your stay?</strong><br><br>
 I'd love to help! Let me open the booking form for you, or you can reach us directly:<br><br>
 📞 <a href="tel:+917006077277">+91 7006077277</a><br>
-📧 info@cedarinn.com<br><br>
+📧 contact.cedarinn@gmail.com<br><br>
 Check-in: 2:00 PM | Check-out: 12:00 PM<br>Free cancellation up to 48 hours before arrival ✅`;
             }
             if (lc.includes('gulmarg') || lc.includes('pahalgam') || lc.includes('sonamarg')) {
@@ -2953,7 +2977,7 @@ Room service available 24/7!`;
                 return `📞 <strong>Contact Cedar Inn:</strong><br><br>
 • Phone: <a href="tel:+917006077277">+91 7006077277</a><br>
 • Phone: <a href="tel:+919906000000">+91 9906000000</a><br>
-• Email: <a href="mailto:info@cedarinn.com">info@cedarinn.com</a><br>
+• Email: <a href="mailto:contact.cedarinn@gmail.com">contact.cedarinn@gmail.com</a><br>
 • WhatsApp: <a href="https://wa.me/917006077277" target="_blank">Click to chat</a> 💬<br><br>
 📍 Rajbagh, Srinagar, J&K<br>
 ⏰ Reception: Open 24/7`;
