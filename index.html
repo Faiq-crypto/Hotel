@@ -943,7 +943,7 @@
         <!-- HOME PAGE -->
         <div id="homePage" class="page active">
             <!-- Hero Section with Slideshow -->
-            <section class="relative overflow-hidden" style="height: 90vh; min-height: 500px; background: linear-gradient(135deg, #1a0a05 0%, #0d0606 40%, #0d0606 60%, #1a0a05 100%);">
+            <section class="relative overflow-hidden" style="height: 90vh; min-height: 500px; background: linear-gradient(135deg, #1a0a05 0%, #0d0606 40%, #0d0606 60%, #1a0a05 100%); touch-action: pan-y;">
                 <div class="absolute inset-0 bg-black/40 z-10"></div>
                 <!-- Subtle gold grain texture overlay -->
                 <div class="absolute inset-0 z-10 pointer-events-none" style="background: radial-gradient(ellipse at 15% 50%, rgba(184,149,106,0.08) 0%, transparent 55%), radial-gradient(ellipse at 85% 50%, rgba(184,149,106,0.08) 0%, transparent 55%);"></div>
@@ -2817,32 +2817,44 @@
         }
 
         // ── HERO SWIPE / DRAG SUPPORT ──────────────────────────────
+        // All touch listeners are passive=true so iOS scroll is NEVER blocked.
+        // CSS touch-action:pan-y on the section handles vertical scroll natively.
         (function() {
             const heroSection = document.querySelector('#homePage section');
             if (!heroSection) return;
-            let hStartX = 0, hStartY = 0, hDiffX = 0, hDragging = false;
+            let hStartX = 0, hStartY = 0, hDiffX = 0, hLocked = false, hActive = false;
 
             function hStart(e) {
                 const src = e.touches ? e.touches[0] : e;
                 hStartX = src.clientX;
                 hStartY = src.clientY;
-                hDiffX = 0;
-                hDragging = true;
+                hDiffX  = 0;
+                hLocked = false;  // direction not yet determined
+                hActive = true;
             }
             function hMove(e) {
-                if (!hDragging) return;
+                if (!hActive) return;
                 const src = e.touches ? e.touches[0] : e;
-                hDiffX = src.clientX - hStartX;
-                const diffY = src.clientY - hStartY;
-                // If mostly vertical scroll, abort
-                if (Math.abs(diffY) > Math.abs(hDiffX) + 10) { hDragging = false; return; }
-                if (e.cancelable) e.preventDefault();
+                const dx = src.clientX - hStartX;
+                const dy = src.clientY - hStartY;
+                if (!hLocked) {
+                    // Determine dominant direction once we have enough movement
+                    if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+                    if (Math.abs(dy) >= Math.abs(dx)) {
+                        // Vertical — let the browser handle it, abandon swipe
+                        hActive = false;
+                        return;
+                    }
+                    hLocked = true; // confirmed horizontal swipe
+                }
+                hDiffX = dx;
+                // NOTE: no preventDefault() — passive listeners only on iOS
             }
             function hEnd() {
-                if (!hDragging) return;
-                hDragging = false;
+                if (!hActive || !hLocked) { hActive = false; return; }
+                hActive = false;
                 const slides = document.querySelectorAll('.hero-slide');
-                const threshold = heroSection.offsetWidth * 0.15;
+                const threshold = Math.min(heroSection.offsetWidth * 0.15, 60);
                 if (hDiffX < -threshold) {
                     currentSlideIndex = (currentSlideIndex + 1) % slides.length;
                 } else if (hDiffX > threshold) {
@@ -2852,15 +2864,15 @@
                 heroRestartTimer();
             }
 
-            // Touch
+            // All passive:true — never interrupts iOS scroll
             heroSection.addEventListener('touchstart', hStart, { passive: true });
-            heroSection.addEventListener('touchmove',  hMove,  { passive: false });
+            heroSection.addEventListener('touchmove',  hMove,  { passive: true });
             heroSection.addEventListener('touchend',   hEnd,   { passive: true });
+            heroSection.addEventListener('touchcancel',function(){ hActive=false; }, { passive: true });
             // Mouse drag (desktop)
             heroSection.addEventListener('mousedown', hStart);
-            heroSection.addEventListener('mousemove', function(e){ if(hDragging) hMove(e); });
-            heroSection.addEventListener('mouseup',   hEnd);
-            heroSection.addEventListener('mouseleave',function(){ if(hDragging){ hDragging=false; } });
+            window.addEventListener('mousemove', function(e){ if(hActive) hMove(e); });
+            window.addEventListener('mouseup',   function(e){ if(hActive) hEnd(e); });
         })();
 
         // ── SCROLL ANIMATIONS ────────────────────────────────────────
